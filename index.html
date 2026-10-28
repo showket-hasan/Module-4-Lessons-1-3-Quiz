@@ -1,0 +1,1925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IELTS Academic Standardized Assessment: Physics Reading & Analytical Examination</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* Strict Academic Typography */
+    body, input, textarea, select, button {
+      font-family: "Times New Roman", Times, "Cambria", Georgia, serif !important;
+    }
+    
+    /* Academic Examination Paper Aesthetic */
+    .exam-paper {
+      background-color: #fcfbf7;
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.08);
+      border: 1px solid #d5cfbf;
+    }
+    
+    .academic-double-border {
+      border: 3px double #1e293b;
+    }
+
+    .academic-header-border {
+      border-bottom: 2px solid #0f172a;
+    }
+
+    .table-academic th, .table-academic td {
+      border: 1px solid #334155;
+      padding: 6px 10px;
+    }
+
+    /* Custom Radio & Checkbox Styling */
+    .academic-radio:checked {
+      background-color: #0f172a;
+      border-color: #0f172a;
+    }
+
+    /* Print optimization */
+    @media print {
+      body {
+        background: white !important;
+        color: black !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .exam-paper {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+      }
+    }
+
+    /* Scrollbar for split panes */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1ede4;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #94a3b8;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #64748b;
+    }
+
+    /* Smooth transitions */
+    .fade-in {
+      animation: fadeIn 0.35s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="bg-stone-200 text-slate-900 min-h-screen selection:bg-slate-300 selection:text-black">
+
+  <!-- ==================== TOP STICKY STATUS & NAVIGATION BAR ==================== -->
+  <header class="no-print sticky top-0 z-40 bg-slate-900 text-stone-100 border-b border-slate-800 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 py-2.5 flex flex-wrap items-center justify-between gap-3">
+      <!-- Title & Candidate Info Preview -->
+      <div class="flex items-center space-x-3">
+        <span class="bg-amber-600 text-white text-xs font-bold px-2 py-0.5 rounded uppercase tracking-wider">Official Examination</span>
+        <div class="hidden sm:block">
+          <span class="text-sm font-semibold tracking-wide" id="barCandidateName">Candidate: John Doe</span>
+          <span class="text-xs text-slate-400 ml-2 font-mono">[ID: IELTS-PHYS-80042]</span>
+        </div>
+      </div>
+
+      <!-- Center: 50-Minute Countdown Clock -->
+      <div class="flex items-center space-x-4">
+        <div id="timerContainer" class="flex items-center space-x-2 bg-slate-800 px-3 py-1.5 rounded border border-slate-700">
+          <i data-lucide="clock" class="w-4 h-4 text-amber-400" id="clockIcon"></i>
+          <span class="text-xs uppercase tracking-wider text-slate-400">Time Left:</span>
+          <span id="timerDisplay" class="font-mono text-base font-bold text-amber-300 tracking-widest">50:00</span>
+        </div>
+
+        <!-- Progress Tracker -->
+        <div class="hidden md:flex items-center space-x-2 text-xs text-slate-300">
+          <span>Answered:</span>
+          <span id="answeredCounter" class="font-bold text-white font-mono">0</span>
+          <span>/ 40</span>
+          <div class="w-20 bg-slate-700 h-2 rounded-full overflow-hidden ml-1">
+            <div id="progressBar" class="bg-emerald-500 h-full w-0 transition-all duration-300"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center space-x-2">
+        <button onclick="toggleNavModal()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-2.5 py-1.5 rounded border border-slate-600 flex items-center space-x-1 transition">
+          <i data-lucide="grid" class="w-3.5 h-3.5"></i>
+          <span class="hidden sm:inline">Question Sheet</span>
+        </button>
+        <button onclick="confirmSubmissionModal()" class="text-xs bg-red-700 hover:bg-red-800 text-white font-bold px-3.5 py-1.5 rounded shadow transition flex items-center space-x-1 tracking-wider uppercase">
+          <i data-lucide="send" class="w-3.5 h-3.5"></i>
+          <span>Submit Paper</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== MAIN TEST INTERFACE CONTAINER ==================== -->
+  <main id="examContainer" class="max-w-6xl mx-auto my-6 px-3 sm:px-6">
+    <div class="exam-paper p-6 sm:p-10 rounded-sm">
+      
+      <!-- Formal Assessment Header Block -->
+      <div class="academic-double-border p-6 mb-8 text-center bg-[#fdfdfb]">
+        <div class="flex justify-between items-center border-b border-slate-400 pb-3 mb-4">
+          <div class="text-left">
+            <p class="text-xs font-semibold tracking-widest uppercase text-slate-600">Standardized Assessment Board</p>
+            <p class="text-sm font-bold text-slate-900">ACADEMIC DIVISION: NATURAL SCIENCES & KINEMATICS</p>
+          </div>
+          <div class="text-right">
+            <span class="text-xs font-bold text-red-900 border border-red-800 px-2 py-0.5 uppercase tracking-wider">Official Assessment</span>
+          </div>
+        </div>
+
+        <h1 class="text-2xl sm:text-3xl font-extrabold uppercase tracking-wide text-slate-900 mb-1">
+          IELTS Academic Standardized Assessment
+        </h1>
+        <h2 class="text-lg sm:text-xl font-bold text-slate-800 italic mb-4">
+          Physics Reading & Analytical Examination: Distance and Displacement (Mo4-L1 to L3)
+        </h2>
+
+        <!-- Candidate & Exam Parameters Table -->
+        <table class="w-full text-left table-academic text-sm bg-white mb-4">
+          <tbody>
+            <tr>
+              <td class="font-bold bg-stone-100 w-1/4">Candidate Name:</td>
+              <td class="w-1/4">
+                <input type="text" id="candidateNameInput" value="A. Candidate" class="w-full bg-transparent focus:outline-none border-b border-dotted border-slate-400 font-semibold" onchange="updateCandidateDisplay()">
+              </td>
+              <td class="font-bold bg-stone-100 w-1/4">Test Date:</td>
+              <td class="w-1/4">2026-10-28</td>
+            </tr>
+            <tr>
+              <td class="font-bold bg-stone-100">Candidate ID:</td>
+              <td class="font-mono">IELTS-PHYS-80042</td>
+              <td class="font-bold bg-stone-100">Scheduled Duration:</td>
+              <td class="font-bold text-red-800">50 Minutes Standard</td>
+            </tr>
+            <tr>
+              <td class="font-bold bg-stone-100">Total Questions:</td>
+              <td>40 Questions (Tiers 1, 2, 3)</td>
+              <td class="font-bold bg-stone-100">Pass Standard (80%):</td>
+              <td class="font-bold text-slate-900">32 / 40 Marks (Band 8.0+)</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Examination Instructions Callout -->
+        <div class="text-left text-xs sm:text-sm bg-stone-50 border border-slate-300 p-3.5 leading-relaxed text-slate-800">
+          <p class="font-bold underline mb-1 uppercase tracking-wider">Examination Instructions & Structure Overview:</p>
+          <ol class="list-decimal list-inside space-y-1">
+            <li>Read all three scientific passages thoroughly before attempting the corresponding questions.</li>
+            <li>This paper contains <strong>40 questions</strong> calibrated across three distinct cognitive tiers:
+              <span class="inline-block font-semibold ml-1">Tier 1 (Easy - 50% / 20 Qs)</span>, 
+              <span class="inline-block font-semibold ml-1">Tier 2 (Intermediate - 30% / 12 Qs)</span>, and 
+              <span class="inline-block font-semibold ml-1">Tier 3 (Challenge / Hurdle - 20% / 8 Qs)</span>.
+            </li>
+            <li>Write all numerical answers with clear units where applicable. Calculators and scratch computation are permitted.</li>
+            <li>Upon timer expiration (50 minutes) or candidate submission, an automated diagnostic score sheet with performance strengths, weaknesses, and improvement roadmaps will be generated instantly.</li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- Quick Section Anchor Tabs -->
+      <div class="flex flex-wrap gap-2 mb-8 border-b-2 border-slate-800 pb-2">
+        <a href="#sec1" class="text-xs uppercase font-bold px-3 py-1.5 bg-slate-800 text-white rounded hover:bg-slate-700 transition">Section 1: Position & Reference (Q1–14)</a>
+        <a href="#sec2" class="text-xs uppercase font-bold px-3 py-1.5 bg-slate-800 text-white rounded hover:bg-slate-700 transition">Section 2: Distance vs Displacement (Q15–27)</a>
+        <a href="#sec3" class="text-xs uppercase font-bold px-3 py-1.5 bg-slate-800 text-white rounded hover:bg-slate-700 transition">Section 3: Kinematic Curves & Calculus (Q28–40)</a>
+      </div>
+
+      <!-- ==================== SECTION 1 ==================== -->
+      <section id="sec1" class="mb-14 scroll-mt-20">
+        <div class="border-b-2 border-slate-900 pb-1 mb-4 flex justify-between items-baseline">
+          <h3 class="text-xl font-bold uppercase tracking-wider text-slate-900">SECTION 1: READING PASSAGE 1</h3>
+          <span class="text-xs font-semibold text-slate-600">Questions 1–14</span>
+        </div>
+
+        <!-- Passage Text Card -->
+        <article class="bg-[#fbf9f4] border border-stone-300 p-5 rounded text-justify text-sm leading-relaxed mb-6 space-y-3">
+          <h4 class="text-base font-bold text-center underline uppercase mb-3 text-slate-800">
+            The Physics of Position and Reference Systems
+          </h4>
+          <p>
+            <span class="font-bold text-slate-900">[Paragraph A]</span> In classical mechanics, describing how physical bodies move through space requires establishing a rigorous spatial framework. Motion is formally defined as the process of changing position over time. However, whether an object is perceived as active or static depends entirely on the frame of observation. To determine if a shift in location has occurred, observers must establish a reference point—a stationary benchmark or starting origin used to measure position and movement. Without an explicit reference point, statements regarding an object's location remain ambiguous and scientifically incomplete.
+          </p>
+          <p>
+            <span class="font-bold text-slate-900">[Paragraph B]</span> Pinpointing an object's location in a one-dimensional (1D) linear path requires three indispensable pieces of information: a specified reference point, an exact distance measurement from that origin, and a designated direction. To mathematically formalize one-dimensional position, physicists establish a reference direction, which is conventionally designated as the positive (+) direction. Consequently, motion or location in the opposite direction is designated as the negative (-) direction. For instance, along a straight municipal line, if a Bus Stop serves as the reference point (0 meters), a Library situated 30 meters to the West (opposite the positive Eastward direction) is assigned a position of -30 meters, whereas a Museum situated 50 meters East is denoted as +50 meters.
+          </p>
+          <p>
+            <span class="font-bold text-slate-900">[Paragraph C]</span> Expanding spatial descriptions into two dimensions (2D) requires establishing a reference point combined with two distinct, non-parallel reference directions (typically perpendicular Cartesian axes, such as East-West and North-South). To pinpoint an object in a 2D plane—such as a vessel navigating a coastal map or a player on a field—one must specify the distance along the primary reference direction followed by the distance along the secondary reference direction relative to the chosen origin.
+          </p>
+          <p>
+            <span class="font-bold text-slate-900">[Paragraph D]</span> A crucial insight in kinematics is that motion is relative rather than absolute. Consider a fisherman sitting motionless in a rowboat anchored along a river bend. Compared to his fishing pole held in his hand, the fisherman is not in motion, because the distance and orientation between the fisherman and his pole remain constant. However, compared to a stationary navigational buoy anchored to the riverbed, a drifting rowboat undergoes a continuous change in position. Thus, an entity can be simultaneously at rest relative to one reference frame and in active motion relative to another.
+          </p>
+        </article>
+
+        <!-- Figure 1 SVG: One-Dimensional Coordinate System -->
+        <div class="border border-slate-300 bg-white p-4 rounded mb-8 text-center shadow-sm">
+          <p class="font-bold text-sm text-slate-800 mb-2">Figure 1: One-Dimensional Coordinate System (Passage 1)</p>
+          <div class="overflow-x-auto">
+            <svg viewBox="0 0 850 180" class="w-full max-w-3xl mx-auto h-auto" xmlns="http://www.w3.org/2000/svg">
+              <rect width="100%" height="100%" fill="#ffffff" />
+              <!-- Axis line -->
+              <line x1="40" y1="90" x2="810" y2="90" stroke="#1e3a8a" stroke-width="3" stroke-linecap="round" />
+              <!-- Axis arrow -->
+              <polygon points="815,90 800,84 800,96" fill="#1e3a8a" />
+              <!-- Ticks and numbers (-50 to +70) -->
+              <!-- Scale: x = 150 + (val - (-50)) * (600 / 120) = 150 + (val + 50) * 5 -->
+              <!-- -50: 150, -40: 200, -30: 250, -20: 300, -10: 350, 0: 400, 10: 450, 20: 500, 30: 550, 40: 600, 50: 650, 60: 700, 70: 750 -->
+              <g stroke="#475569" stroke-width="1.5">
+                <line x1="150" y1="83" x2="150" y2="97" /><line x1="200" y1="85" x2="200" y2="95" />
+                <line x1="250" y1="78" x2="250" y2="102" stroke="#dc2626" stroke-width="2" />
+                <line x1="300" y1="85" x2="300" y2="95" /><line x1="350" y1="85" x2="350" y2="95" />
+                <line x1="400" y1="75" x2="400" y2="105" stroke="#2563eb" stroke-width="2.5" />
+                <line x1="450" y1="85" x2="450" y2="95" /><line x1="500" y1="85" x2="500" y2="95" />
+                <line x1="550" y1="85" x2="550" y2="95" /><line x1="600" y1="85" x2="600" y2="95" />
+                <line x1="650" y1="78" x2="650" y2="102" stroke="#16a34a" stroke-width="2" />
+                <line x1="700" y1="85" x2="700" y2="95" /><line x1="750" y1="83" x2="750" y2="97" />
+              </g>
+              <!-- Tick labels -->
+              <g font-size="12" font-family="'Times New Roman', serif" text-anchor="middle" fill="#1e293b">
+                <text x="150" y="115">-50</text><text x="200" y="115">-40</text>
+                <text x="250" y="115" font-weight="bold" fill="#b91c1c">-30</text>
+                <text x="300" y="115">-20</text><text x="350" y="115">-10</text>
+                <text x="400" y="115" font-weight="bold" fill="#1d4ed8">0</text>
+                <text x="450" y="115">10</text><text x="500" y="115">20</text>
+                <text x="550" y="115">30</text><text x="600" y="115">40</text>
+                <text x="650" y="115" font-weight="bold" fill="#15803d">50</text>
+                <text x="700" y="115">60</text><text x="750" y="115">70</text>
+              </g>
+              <!-- Library Marker (-30m) -->
+              <circle cx="250" cy="90" r="8" fill="#ef4444" stroke="#991b1b" stroke-width="1.5" />
+              <text x="250" y="45" font-size="13" font-weight="bold" fill="#991b1b" text-anchor="middle">Library</text>
+              <text x="250" y="60" font-size="11" font-weight="bold" fill="#991b1b" text-anchor="middle">(-30 m)</text>
+              <!-- Bus Stop Marker (0m Reference Point) -->
+              <circle cx="400" cy="90" r="9" fill="#3b82f6" stroke="#1e40af" stroke-width="2" />
+              <text x="400" y="42" font-size="13" font-weight="bold" fill="#1e40af" text-anchor="middle">Bus Stop (Reference Point)</text>
+              <text x="400" y="58" font-size="11" font-weight="bold" fill="#1e40af" text-anchor="middle">(0 m)</text>
+              <!-- Museum Marker (+50m) -->
+              <circle cx="650" cy="90" r="8" fill="#22c55e" stroke="#15803d" stroke-width="1.5" />
+              <text x="650" y="45" font-size="13" font-weight="bold" fill="#15803d" text-anchor="middle">Museum</text>
+              <text x="650" y="60" font-size="11" font-weight="bold" fill="#15803d" text-anchor="middle">(+50 m)</text>
+              <!-- Reference Direction Legend -->
+              <text x="400" y="155" font-size="13" font-weight="bold" fill="#0f172a" text-anchor="middle">
+                Position along 1D axis (meters) [Reference Direction: East = Positive (+)]
+              </text>
+            </svg>
+          </div>
+          <p class="text-xs text-slate-500 mt-1">Grounded in Textbook Source Module Mo4-L1.</p>
+        </div>
+
+        <!-- Questions 1-5: Multiple Choice -->
+        <div class="mb-8">
+          <h4 class="font-bold text-base border-b border-slate-300 pb-1 mb-3 text-slate-900">
+            Questions 1–5: Multiple Choice Questions
+          </h4>
+          <p class="text-xs text-slate-600 mb-4 italic">Choose the correct letter, A, B, C, or D, and select your answer.</p>
+
+          <div class="space-y-5 text-sm">
+            <!-- Q1 -->
+            <div class="p-3.5 bg-white border border-stone-200 rounded">
+              <div class="flex items-baseline justify-between mb-2">
+                <span class="font-bold text-slate-900">1. According to Paragraph A, what is the primary prerequisite for determining whether an object is in motion?</span>
+                <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-sans font-semibold">Tier 1 - Easy</span>
+              </div>
+              <div class="space-y-1.5 pl-2">
+                <label class="flex items-center space-x-2 cursor-pointer hover:bg-stone-50 p-1 rounded">
+                  <input type="radio" name="q1" value="A" class="academic-radio" onchange="registerAnswer(1)">
+                  <span>A. Measuring its top speed using a stopwatch.</span>
+                </label>
+                <label class="flex items-center space-x-2 cursor-pointer hover:bg-stone-50 p-1 rounded">
+                  <input type="radio" name="q1" value="B" class="academic-radio" onchange="registerAnswer(1)">
+                  <span>B. Establishing a stationary reference point as an anchor.</span>
+                </label>
+                <label class="flex items-center space-x-2 cursor-pointer hover:bg-stone-50 p-1 rounded">
+                  <input type="radio" name="q1" value="C" class="academic-radio" onchange="registerAnswer(1)">
+                  <span>C. Calculating the total mass of the object.</span>
+                </label>
+                <label class="flex items-center space-x-2 cursor-pointer hover:bg-stone-50 p-1 rounded">
+                  <input type="radio" name="q1" value="D" class="academic-radio" onchange="registerAnswer(1)">
+                  <span>D. Ensuring the object travels in a straight line.</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Q2 -->
+            <div class="p-3.5 bg-white border border-stone-200 rounded">
+              <div class="flex items-baseline justify-between mb-2">
+                <span class="font-bold text-slate-900">2. According to Paragraph B, a complete scientific description of an object's position MUST include:</span>
+                <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-sans font-semibold">Tier 1 - Easy</span>
+              </div>
+              <div class="space-y-1.5 pl-2">
+                <label class="flex items-center space-x-2 cursor-pointer hover:bg-stone-50 p-1 rounded">
+                  <input type="radio" name="q2" value="A" class="academic-radio" onchange="registerAnswer(2)">
+                  <span>A. Velocity, acceleration, and time.</span>
+                </label>
+                <label class="flex items-center space-x-2 cursor-pointer hover:bg-stone-50 p-1 rounded">
+                  <input type="radio" name="q2" value="B" class="academic-radio" onchange="registerAnswer(2)">
+                  <span>B. Distance, direction, and a reference point.</span>
+                </label>
+                <label class="flex items-center space-x-2 cursor-pointer hover:bg-stone-50 p-1 rounded">
+                  <input type="radio" name="q2" value="C" class="academic-radio" onchange="registerAnswer(2)">
+                  <span>C. Total path length, weight, and initial speed.</span>
+                </label>
+                <label class="flex items-center space-x-2 cursor-pointer hover:bg-stone-50 p-1 rounded">
+                  <input type="radio" name="q2" value="D" class="academic-radio" onchange="registerAnswer(2)">
+                  <span>D. Two-dimensional grid angles and displacement.</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Q3 -->
+            <div class="p-3.5 bg-white border border-stone-200 rounded">
+              <div class="flex items-baseline justify-between mb-2">
+                <span class="font-bold text-slate-900">3. On a 1D coordinate axis where East is defined as the positive (+) reference direction, a location 30 meters West of the origin is recorded as:</span>
+                <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-sans font-semibold">Tier 1 - Easy</span>
+              </div>
+              <div class="space-y-1.5 pl-2">
+                <label class="flex items-center space-x-2 cursor-pointer hover:bg-stone-50 p-1 rounded">
+                  <input type="radio" name="q3" value="A" class="academic-radio" onchange="registerAnswer(3)">
+                  <span>A. +30 m</span>
+                </label>
+                <label class="flex items-center space-x-2 cursor-pointer hover:bg-stone-50 p-1 rounded">
+                  <input type="radio" name="q3" value="B" class="academic-radio" onchange="registerAnswer(3)">
+                  <span>B. -30 m</span>
+                </label>
+                <label class="flex items-center space-x-2 cursor-pointer hover:bg-stone-50 p-1 rounded">
+                  <input type="radio" name="q3" value="C" class="academic-radio" onchange="registerAnswer(3)">
+                  <span>C. 0 m</span>
+                </label>
+                <label class="flex items-center space-x-2 cursor-pointer hover:bg-stone-50 p-1 rounded">
+                  <input type="radio" name="q3" value="D" class="academic-radio" onchange="registerAnswer(3)">
+                  <span>D. +60 m</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Q4 -->
+            <div class="p-3.5 bg-white border border-stone-200 rounded">
+              <div class="flex items-baseline justify-between mb-2">
+                <span class="font-bold text-slate-900">4. In the scenario described in Paragraph D, why is the fisherman considered NOT in motion relative to his fishing pole?</span>
+                <span class="text-xs bg-amber-100 text-amber-900 px-2 py-0.5 rounded font-sans font-semibold">Tier 2 - Intermediate</span>
+              </div>
+              <div class="space-y-1.5 pl-2">
+                <label class="flex items-center space-x-2 cursor-pointer hover:bg-stone-50 p-1 rounded">
+                  <input type="radio" name="q4" value="A" class="academic-radio" onchange="registerAnswer(4)">
+                  <span>A. The rowboat is anchored securely to the riverbed.</span>
+                </label>
+                <label class="flex items-center space-x-2 cursor-pointer hover:bg-stone-50 p-1 rounded">
+                  <input type="radio" name="q4" value="B" class="academic-radio" onchange="registerAnswer(4)">
+                  <span>B. The fishing pole is moving at a faster speed than the river current.</span>
+                </label>
+                <label class="flex items-center space-x-2 cursor-pointer hover:bg-stone-50 p-1 rounded">
+                  <input type="radio" name="q4" value="C" class="academic-radio" onchange="registerAnswer(4)">
+                  <span>C. The spatial distance and orientation between the fisherman and the pole remain unchanged.</span>
+                </label>
+                <label class="flex items-center space-x-2 cursor-pointer hover:bg-stone-50 p-1 rounded">
+                  <input type="radio" name="q4" value="D" class="academic-radio" onchange="registerAnswer(4)">
+                  <span>D. The buoy serves as the primary origin for both objects.</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Q5 -->
+            <div class="p-3.5 bg-white border border-stone-200 rounded">
+              <div class="flex items-baseline justify-between mb-2">
+                <span class="font-bold text-slate-900">5. To pinpoint an object's exact location in a two-dimensional system, an observer must identify:</span>
+                <span class="text-xs bg-amber-100 text-amber-900 px-2 py-0.5 rounded font-sans font-semibold">Tier 2 - Intermediate</span>
+              </div>
+              <div class="space-y-1.5 pl-2">
+                <label class="flex items-center space-x-2 cursor-pointer hover:bg-stone-50 p-1 rounded">
+                  <input type="radio" name="q5" value="A" class="academic-radio" onchange="registerAnswer(5)">
+                  <span>A. A single distance measurement along a curved path.</span>
+                </label>
+                <label class="flex items-center space-x-2 cursor-pointer hover:bg-stone-50 p-1 rounded">
+                  <input type="radio" name="q5" value="B" class="academic-radio" onchange="registerAnswer(5)">
+                  <span>B. A reference point and distance measurements along two distinct reference directions.</span>
+                </label>
+                <label class="flex items-center space-x-2 cursor-pointer hover:bg-stone-50 p-1 rounded">
+                  <input type="radio" name="q5" value="C" class="academic-radio" onchange="registerAnswer(5)">
+                  <span>C. The total time elapsed during the object's journey.</span>
+                </label>
+                <label class="flex items-center space-x-2 cursor-pointer hover:bg-stone-50 p-1 rounded">
+                  <input type="radio" name="q5" value="D" class="academic-radio" onchange="registerAnswer(5)">
+                  <span>D. The speed of the object relative to the sun.</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Questions 6-10: True / False / Not Given -->
+        <div class="mb-8">
+          <h4 class="font-bold text-base border-b border-slate-300 pb-1 mb-2 text-slate-900">
+            Questions 6–10: True / False / Not Given
+          </h4>
+          <div class="p-3 bg-stone-100 border border-stone-300 text-xs text-slate-700 mb-4 rounded">
+            <strong>TRUE:</strong> if the statement agrees with the information.<br>
+            <strong>FALSE:</strong> if the statement contradicts the information.<br>
+            <strong>NOT GIVEN:</strong> if there is no information on this.
+          </div>
+
+          <div class="space-y-3 text-sm">
+            <!-- Q6 to Q10 items -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-white border border-stone-200 rounded gap-2">
+              <span class="flex-1 font-medium">6. An object can be at rest relative to one reference point while simultaneously moving relative to another.</span>
+              <div class="flex items-center space-x-4">
+                <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-sans">Tier 1</span>
+                <select name="q6" class="border border-slate-400 p-1 text-xs rounded bg-white" onchange="registerAnswer(6)">
+                  <option value="">-- Select --</option>
+                  <option value="TRUE">TRUE</option>
+                  <option value="FALSE">FALSE</option>
+                  <option value="NOT GIVEN">NOT GIVEN</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-white border border-stone-200 rounded gap-2">
+              <span class="flex-1 font-medium">7. A position measurement can be fully established using only distance and direction without selecting a reference point.</span>
+              <div class="flex items-center space-x-4">
+                <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-sans">Tier 1</span>
+                <select name="q7" class="border border-slate-400 p-1 text-xs rounded bg-white" onchange="registerAnswer(7)">
+                  <option value="">-- Select --</option>
+                  <option value="TRUE">TRUE</option>
+                  <option value="FALSE">FALSE</option>
+                  <option value="NOT GIVEN">NOT GIVEN</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-white border border-stone-200 rounded gap-2">
+              <span class="flex-1 font-medium">8. Changing the selected reference point alters the numerical values used to describe an object's position.</span>
+              <div class="flex items-center space-x-4">
+                <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-sans">Tier 1</span>
+                <select name="q8" class="border border-slate-400 p-1 text-xs rounded bg-white" onchange="registerAnswer(8)">
+                  <option value="">-- Select --</option>
+                  <option value="TRUE">TRUE</option>
+                  <option value="FALSE">FALSE</option>
+                  <option value="NOT GIVEN">NOT GIVEN</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-white border border-stone-200 rounded gap-2">
+              <span class="flex-1 font-medium">9. Satellite polar grid software is required to calculate two-dimensional positions.</span>
+              <div class="flex items-center space-x-4">
+                <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-sans">Tier 1</span>
+                <select name="q9" class="border border-slate-400 p-1 text-xs rounded bg-white" onchange="registerAnswer(9)">
+                  <option value="">-- Select --</option>
+                  <option value="TRUE">TRUE</option>
+                  <option value="FALSE">FALSE</option>
+                  <option value="NOT GIVEN">NOT GIVEN</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-white border border-stone-200 rounded gap-2">
+              <span class="flex-1 font-medium">10. Moving in the direction opposite to the established positive reference direction yields a negative position coordinate.</span>
+              <div class="flex items-center space-x-4">
+                <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-sans">Tier 1</span>
+                <select name="q10" class="border border-slate-400 p-1 text-xs rounded bg-white" onchange="registerAnswer(10)">
+                  <option value="">-- Select --</option>
+                  <option value="TRUE">TRUE</option>
+                  <option value="FALSE">FALSE</option>
+                  <option value="NOT GIVEN">NOT GIVEN</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Questions 11-14: Sentence Completion -->
+        <div>
+          <h4 class="font-bold text-base border-b border-slate-300 pb-1 mb-2 text-slate-900">
+            Questions 11–14: Sentence Completion
+          </h4>
+          <p class="text-xs text-slate-600 mb-4 italic">
+            Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS AND/OR A NUMBER</strong> from the passage for each answer.
+          </p>
+
+          <div class="space-y-3 text-sm">
+            <div class="p-3 bg-white border border-stone-200 rounded">
+              <div class="flex justify-between items-center mb-1">
+                <span class="font-medium text-slate-900">11. The starting benchmark or origin used to describe spatial position or motion is known as the:</span>
+                <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-sans">Tier 1 - Easy</span>
+              </div>
+              <input type="text" name="q11" placeholder="Type answer here..." class="border border-slate-400 px-2.5 py-1 text-sm rounded w-full sm:w-80" oninput="registerAnswer(11)">
+            </div>
+
+            <div class="p-3 bg-white border border-stone-200 rounded">
+              <div class="flex justify-between items-center mb-1">
+                <span class="font-medium text-slate-900">12. If a pedestrian starts at the Bus Stop (0 m) and travels to the Museum, their position coordinate is:</span>
+                <span class="text-xs bg-amber-100 text-amber-900 px-2 py-0.5 rounded font-sans">Tier 2 - Intermediate</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <input type="text" name="q12" placeholder="e.g. +50 or +50 m" class="border border-slate-400 px-2.5 py-1 text-sm rounded w-48" oninput="registerAnswer(12)">
+                <span class="text-xs text-slate-500">(meters)</span>
+              </div>
+            </div>
+
+            <div class="p-3 bg-white border border-stone-200 rounded">
+              <div class="flex justify-between items-center mb-1">
+                <span class="font-medium text-slate-900">13. Kinematics defines ________ as the continuous process of changing position over time:</span>
+                <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-sans">Tier 1 - Easy</span>
+              </div>
+              <input type="text" name="q13" placeholder="Type answer here..." class="border border-slate-400 px-2.5 py-1 text-sm rounded w-full sm:w-80" oninput="registerAnswer(13)">
+            </div>
+
+            <div class="p-3 bg-white border border-stone-200 rounded">
+              <div class="flex justify-between items-center mb-1">
+                <span class="font-medium text-slate-900">14. Compared to a stationary buoy fixed in the river, a drifting rowboat undergoes a continuous change in:</span>
+                <span class="text-xs bg-amber-100 text-amber-900 px-2 py-0.5 rounded font-sans">Tier 2 - Intermediate</span>
+              </div>
+              <input type="text" name="q14" placeholder="Type answer here..." class="border border-slate-400 px-2.5 py-1 text-sm rounded w-full sm:w-80" oninput="registerAnswer(14)">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== SECTION 2 ==================== -->
+      <section id="sec2" class="mb-14 scroll-mt-20">
+        <div class="border-b-2 border-slate-900 pb-1 mb-4 flex justify-between items-baseline">
+          <h3 class="text-xl font-bold uppercase tracking-wider text-slate-900">SECTION 2: READING PASSAGE 2</h3>
+          <span class="text-xs font-semibold text-slate-600">Questions 15–27</span>
+        </div>
+
+        <article class="bg-[#fbf9f4] border border-stone-300 p-5 rounded text-justify text-sm leading-relaxed mb-6 space-y-3">
+          <h4 class="text-base font-bold text-center underline uppercase mb-3 text-slate-800">
+            Path Length versus Vector Shift: Distance and Displacement
+          </h4>
+          <p>
+            <span class="font-bold text-slate-900">[Paragraph A]</span> When quantifying physical journeys, science draws a fundamental distinction between scalar ground covered and net spatial relocation. Distance is defined as the total length of the path traveled by an object. Because distance accumulates every detour, winding curve, and step taken, it is a scalar quantity—possessing magnitude but no directional component. In contrast, displacement is defined strictly as the direct difference between an object's initial (starting) position and its final position. Displacement is a vector quantity, fully specified by a straight-line numerical magnitude and an explicit direction arrow.
+          </p>
+          <p>
+            <span class="font-bold text-slate-900">[Paragraph B]</span> Consider a team of hikers trekking from a forest research station to a wilderness campsite. The winding trail meanders around hilltops, trees, and streams, accumulating a total distance traveled of 200 meters. However, if a surveyor stretches a direct, straight-line measuring cable from the forest station straight to the tent camp, the direct distance measures exactly 120 meters toward the Northeast. Thus, while the total route length is 200 m, the magnitude of the displacement vector is only 120 m.
+          </p>
+          <p>
+            <span class="font-bold text-slate-900">[Paragraph C]</span> A classical geometric model used to illustrate these principles is a baseball diamond (Figure 2). A standard baseball diamond consists of a square with baselines measuring exactly 90 feet between adjacent bases. The kinematic outcomes vary significantly depending on the runner's path:
+            <br>• <strong>Scenario 1 (Batter runs to 1st Base):</strong> The distance traveled along the baseline is 90 ft. Because the motion occurs along a single straight line, the displacement magnitude is also 90 ft directed toward 1st base.
+            <br>• <strong>Scenario 2 (Batter runs to 2nd Base):</strong> The runner covers 90 ft to 1st base and 90 ft to 2nd base, yielding a total distance of 180 ft (90 + 90). However, displacement measures the straight-line diagonal gap from Home Plate to 2nd Base across the diamond center, which equals 127 ft toward 2nd base.
+            <br>• <strong>Scenario 3 (Batter hits a Home Run and completes the circuit):</strong> The runner touches 1st, 2nd, 3rd, and Home Plate, traveling a total distance of 360 ft (4 x 90 ft). However, because the runner returns to the exact starting point (Home Plate), the initial and final positions are identical. Consequently, the net displacement is exactly 0 ft.
+          </p>
+          <p>
+            <span class="font-bold text-slate-900">[Paragraph D]</span> A universal rule in mechanics emerges from these observations: total distance and displacement magnitude are equal <em>IF AND ONLY IF</em> motion proceeds along a single straight line in one unchanging direction. As soon as a path curves, turns, or reverses direction, total distance continuously increases, whereas displacement magnitude becomes strictly less than distance.
+          </p>
+        </article>
+
+        <!-- Figure 2 SVG: Baseball Diamond -->
+        <div class="border border-slate-300 bg-white p-4 rounded mb-8 text-center shadow-sm">
+          <p class="font-bold text-sm text-slate-800 mb-2">Figure 2: Distance vs. Displacement on a Baseball Diamond (Passage 2)</p>
+          <div class="overflow-x-auto">
+            <svg viewBox="0 0 500 480" class="w-full max-w-md mx-auto h-auto" xmlns="http://www.w3.org/2000/svg">
+              <rect width="100%" height="100%" fill="#ffffff" />
+              <!-- Diamond Square Baselines (90 ft each) -->
+              <!-- Points: Home(250, 410), 1st(390, 270), 2nd(250, 130), 3rd(110, 270) -->
+              <polygon points="250,410 390,270 250,130 110,270" fill="#f8fafc" stroke="#0f172a" stroke-width="3" stroke-linejoin="round" />
+              
+              <!-- Infield dirt tint -->
+              <polygon points="250,380 360,270 250,160 140,270" fill="#fef3c7" opacity="0.4" />
+
+              <!-- Displacement Diagonal Vector from Home to 2nd Base -->
+              <line x1="250" y1="410" x2="250" y2="140" stroke="#ef4444" stroke-width="3.5" stroke-dasharray="8,6" />
+              <polygon points="250,132 243,148 257,148" fill="#ef4444" />
+
+              <!-- Base Markers -->
+              <!-- Home Plate -->
+              <polygon points="250,410 240,420 240,430 260,430 260,420" fill="#1e3a8a" stroke="#0f172a" stroke-width="1.5" />
+              <!-- 1st Base -->
+              <rect x="382" y="262" width="16" height="16" fill="#1e3a8a" stroke="#0f172a" stroke-width="1.5" />
+              <!-- 2nd Base -->
+              <rect x="242" y="122" width="16" height="16" fill="#1e3a8a" stroke="#0f172a" stroke-width="1.5" />
+              <!-- 3rd Base -->
+              <rect x="102" y="262" width="16" height="16" fill="#1e3a8a" stroke="#0f172a" stroke-width="1.5" />
+
+              <!-- Labels -->
+              <!-- Home Plate -->
+              <text x="250" y="450" font-family="'Times New Roman', serif" font-size="13" font-weight="bold" fill="#0f172a" text-anchor="middle">Home Base (Start: 0,0)</text>
+              
+              <!-- 1st Base -->
+              <text x="410" y="265" font-family="'Times New Roman', serif" font-size="13" font-weight="bold" fill="#0f172a" text-anchor="start">1st Base</text>
+              <text x="410" y="280" font-family="'Times New Roman', serif" font-size="11" fill="#475569" text-anchor="start">(90 ft baseline)</text>
+
+              <!-- 2nd Base -->
+              <text x="250" y="95" font-family="'Times New Roman', serif" font-size="13" font-weight="bold" fill="#b91c1c" text-anchor="middle">2nd Base</text>
+              <text x="250" y="112" font-family="'Times New Roman', serif" font-size="12" font-weight="bold" fill="#dc2626" text-anchor="middle">Displacement: 127 ft (Diagonal)</text>
+
+              <!-- 3rd Base -->
+              <text x="90" y="265" font-family="'Times New Roman', serif" font-size="13" font-weight="bold" fill="#0f172a" text-anchor="end">3rd Base</text>
+              <text x="90" y="280" font-family="'Times New Roman', serif" font-size="11" fill="#475569" text-anchor="end">(90 ft from Home)</text>
+
+              <!-- Baseline dimension labels -->
+              <text x="335" y="360" font-family="'Times New Roman', serif" font-size="11" font-style="italic" fill="#334155" text-anchor="middle">90 ft</text>
+              <text x="165" y="360" font-family="'Times New Roman', serif" font-size="11" font-style="italic" fill="#334155" text-anchor="middle">90 ft</text>
+              <text x="335" y="190" font-family="'Times New Roman', serif" font-size="11" font-style="italic" fill="#334155" text-anchor="middle">90 ft</text>
+              <text x="165" y="190" font-family="'Times New Roman', serif" font-size="11" font-style="italic" fill="#334155" text-anchor="middle">90 ft</text>
+            </svg>
+          </div>
+          <p class="text-xs text-slate-500 mt-1">Grounded in Textbook Source Module Mo4-L2.</p>
+        </div>
+
+        <!-- Questions 15-18: Matching Information -->
+        <div class="mb-8">
+          <h4 class="font-bold text-base border-b border-slate-300 pb-1 mb-2 text-slate-900">
+            Questions 15–18: Matching Information
+          </h4>
+          <p class="text-xs text-slate-600 mb-4 italic">
+            Which paragraph contains the following information? Choose the correct letter, <strong>A–D</strong>.
+          </p>
+
+          <div class="space-y-3 text-sm">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-white border border-stone-200 rounded gap-2">
+              <span class="flex-1">15. Explanation of why completing a closed-loop journey back to the origin results in zero net displacement.</span>
+              <div class="flex items-center space-x-3">
+                <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-sans">Tier 1</span>
+                <select name="q15" class="border border-slate-400 p-1 text-xs rounded bg-white w-24" onchange="registerAnswer(15)">
+                  <option value="">Paragraph</option>
+                  <option value="A">Paragraph A</option>
+                  <option value="B">Paragraph B</option>
+                  <option value="C">Paragraph C</option>
+                  <option value="D">Paragraph D</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-white border border-stone-200 rounded gap-2">
+              <span class="flex-1">16. The specific mathematical condition under which path length and vector shift magnitude are identical.</span>
+              <div class="flex items-center space-x-3">
+                <span class="text-xs bg-amber-100 text-amber-900 px-2 py-0.5 rounded font-sans">Tier 2</span>
+                <select name="q16" class="border border-slate-400 p-1 text-xs rounded bg-white w-24" onchange="registerAnswer(16)">
+                  <option value="">Paragraph</option>
+                  <option value="A">Paragraph A</option>
+                  <option value="B">Paragraph B</option>
+                  <option value="C">Paragraph C</option>
+                  <option value="D">Paragraph D</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-white border border-stone-200 rounded gap-2">
+              <span class="flex-1">17. A quantitative comparison of a 200 m winding trail versus a 120 m direct line measurement.</span>
+              <div class="flex items-center space-x-3">
+                <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-sans">Tier 1</span>
+                <select name="q17" class="border border-slate-400 p-1 text-xs rounded bg-white w-24" onchange="registerAnswer(17)">
+                  <option value="">Paragraph</option>
+                  <option value="A">Paragraph A</option>
+                  <option value="B">Paragraph B</option>
+                  <option value="C">Paragraph C</option>
+                  <option value="D">Paragraph D</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-white border border-stone-200 rounded gap-2">
+              <span class="flex-1">18. Formal physical definitions distinguishing scalar distance from vector displacement.</span>
+              <div class="flex items-center space-x-3">
+                <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-sans">Tier 1</span>
+                <select name="q18" class="border border-slate-400 p-1 text-xs rounded bg-white w-24" onchange="registerAnswer(18)">
+                  <option value="">Paragraph</option>
+                  <option value="A">Paragraph A</option>
+                  <option value="B">Paragraph B</option>
+                  <option value="C">Paragraph C</option>
+                  <option value="D">Paragraph D</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Questions 19-23: Calculation & Short Answer -->
+        <div class="mb-8">
+          <h4 class="font-bold text-base border-b border-slate-300 pb-1 mb-2 text-slate-900">
+            Questions 19–23: Calculation & Short Answer Questions
+          </h4>
+          <p class="text-xs text-slate-600 mb-4 italic">Calculate or state the exact numerical values based on Reading Passage 2. Include appropriate units.</p>
+
+          <div class="space-y-4 text-sm">
+            <div class="p-3 bg-white border border-stone-200 rounded">
+              <div class="flex justify-between items-center mb-1">
+                <span class="font-medium text-slate-900">19. Calculate the total distance covered by a player who completes two full laps around a 360-foot baseball diamond:</span>
+                <span class="text-xs bg-amber-100 text-amber-900 px-2 py-0.5 rounded font-sans">Tier 2 - Intermediate</span>
+              </div>
+              <input type="text" name="q19" placeholder="e.g. 720 ft" class="border border-slate-400 px-2 py-1 text-sm rounded w-48" oninput="registerAnswer(19)">
+            </div>
+
+            <div class="p-3 bg-white border border-stone-200 rounded">
+              <div class="flex justify-between items-center mb-1">
+                <span class="font-medium text-slate-900">20. What is the net displacement of the player in Question 19 upon returning to home plate after two full laps?</span>
+                <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-sans">Tier 1 - Easy</span>
+              </div>
+              <input type="text" name="q20" placeholder="e.g. 0 ft" class="border border-slate-400 px-2 py-1 text-sm rounded w-48" oninput="registerAnswer(20)">
+            </div>
+
+            <div class="p-3 bg-white border border-stone-200 rounded">
+              <div class="flex justify-between items-center mb-1">
+                <span class="font-medium text-slate-900">21. Calculate the percentage difference between the total distance (200 m) and displacement (120 m) for the forest trail. Formula: [(Distance - Displacement) / Distance] x 100%:</span>
+                <span class="text-xs bg-amber-100 text-amber-900 px-2 py-0.5 rounded font-sans">Tier 2 - Intermediate</span>
+              </div>
+              <input type="text" name="q21" placeholder="e.g. 40%" class="border border-slate-400 px-2 py-1 text-sm rounded w-48" oninput="registerAnswer(21)">
+            </div>
+
+            <div class="p-3 bg-white border border-stone-200 rounded">
+              <div class="flex justify-between items-center mb-1">
+                <span class="font-medium text-slate-900">22. A player runs from Home Plate to 1st base, then to 2nd base, and stops at 3rd base. What is the magnitude of the player's displacement from Home Plate?</span>
+                <span class="text-xs bg-purple-100 text-purple-900 px-2 py-0.5 rounded font-sans font-bold">Tier 3 - Challenge / Hurdle</span>
+              </div>
+              <input type="text" name="q22" placeholder="e.g. 90 ft" class="border border-slate-400 px-2 py-1 text-sm rounded w-48" oninput="registerAnswer(22)">
+            </div>
+
+            <div class="p-3 bg-white border border-stone-200 rounded">
+              <div class="flex justify-between items-center mb-1">
+                <span class="font-medium text-slate-900">23. State the mathematical inequality that relates displacement magnitude (|d|) to total distance (s) for any real path:</span>
+                <span class="text-xs bg-amber-100 text-amber-900 px-2 py-0.5 rounded font-sans">Tier 2 - Intermediate</span>
+              </div>
+              <input type="text" name="q23" placeholder="e.g. |d| <= s" class="border border-slate-400 px-2 py-1 text-sm rounded w-48" oninput="registerAnswer(23)">
+            </div>
+          </div>
+        </div>
+
+        <!-- Questions 24-27: Summary Completion (Word Bank) -->
+        <div>
+          <h4 class="font-bold text-base border-b border-slate-300 pb-1 mb-2 text-slate-900">
+            Questions 24–27: Summary Completion (Word Bank)
+          </h4>
+          <p class="text-xs text-slate-600 mb-3 italic">
+            Complete the summary below using words from the box. Write the correct letter, <strong>A–G</strong>.
+          </p>
+
+          <!-- Word Bank Box -->
+          <div class="bg-stone-100 border border-slate-300 p-3 rounded mb-4 text-xs">
+            <span class="font-bold uppercase tracking-wider block text-slate-700 mb-1">WORD BANK FOR QUESTIONS 24–27:</span>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 font-serif font-semibold text-slate-800">
+              <div>A. Direction</div>
+              <div>B. Initial</div>
+              <div>C. Zero</div>
+              <div>D. Scalar</div>
+              <div>E. Vector</div>
+              <div>F. Winding</div>
+              <div>G. Identical</div>
+            </div>
+          </div>
+
+          <div class="p-4 bg-white border border-stone-200 rounded space-y-3 leading-loose text-sm">
+            <p>
+              Distance is a 
+              <select name="q24" class="inline-block border border-slate-400 rounded px-2 py-0.5 text-xs bg-stone-50" onchange="registerAnswer(24)">
+                <option value="">(24)</option>
+                <option value="A">A - Direction</option>
+                <option value="B">B - Initial</option>
+                <option value="C">C - Zero</option>
+                <option value="D">D - Scalar</option>
+                <option value="E">E - Vector</option>
+                <option value="F">F - Winding</option>
+                <option value="G">G - Identical</option>
+              </select>
+              quantity that accounts for the complete length of a route traveled. 
+              In contrast, displacement depends strictly on the direct gap between the 
+              <select name="q25" class="inline-block border border-slate-400 rounded px-2 py-0.5 text-xs bg-stone-50" onchange="registerAnswer(25)">
+                <option value="">(25)</option>
+                <option value="A">A - Direction</option>
+                <option value="B">B - Initial</option>
+                <option value="C">C - Zero</option>
+                <option value="D">D - Scalar</option>
+                <option value="E">E - Vector</option>
+                <option value="F">F - Winding</option>
+                <option value="G">G - Identical</option>
+              </select>
+              and final positions. Whenever an object changes its 
+              <select name="q26" class="inline-block border border-slate-400 rounded px-2 py-0.5 text-xs bg-stone-50" onchange="registerAnswer(26)">
+                <option value="">(26)</option>
+                <option value="A">A - Direction</option>
+                <option value="B">B - Initial</option>
+                <option value="C">C - Zero</option>
+                <option value="D">D - Scalar</option>
+                <option value="E">E - Vector</option>
+                <option value="F">F - Winding</option>
+                <option value="G">G - Identical</option>
+              </select>
+              during travel, total distance becomes strictly greater than displacement. 
+              Returning to the exact starting point brings the net displacement down to 
+              <select name="q27" class="inline-block border border-slate-400 rounded px-2 py-0.5 text-xs bg-stone-50" onchange="registerAnswer(27)">
+                <option value="">(27)</option>
+                <option value="A">A - Direction</option>
+                <option value="B">B - Initial</option>
+                <option value="C">C - Zero</option>
+                <option value="D">D - Scalar</option>
+                <option value="E">E - Vector</option>
+                <option value="F">F - Winding</option>
+                <option value="G">G - Identical</option>
+              </select>, regardless of distance covered.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== SECTION 3 ==================== -->
+      <section id="sec3" class="mb-14 scroll-mt-20">
+        <div class="border-b-2 border-slate-900 pb-1 mb-4 flex justify-between items-baseline">
+          <h3 class="text-xl font-bold uppercase tracking-wider text-slate-900">SECTION 3: READING PASSAGE 3</h3>
+          <span class="text-xs font-semibold text-slate-600">Questions 28–40</span>
+        </div>
+
+        <article class="bg-[#fbf9f4] border border-stone-300 p-5 rounded text-justify text-sm leading-relaxed mb-6 space-y-3">
+          <h4 class="text-base font-bold text-center underline uppercase mb-3 text-slate-800">
+            Kinematic Curves: Graphical Interpretation of Motion
+          </h4>
+          <p>
+            <span class="font-bold text-slate-900">[Paragraph A]</span> Motion graphs serve as powerful visual tools that translate abstract physical shifts into clear geometric relationships. In kinematic analysis, two fundamental plot types are utilized: <em>Displacement–Time Graphs</em> (plotting spatial position on the vertical y-axis against elapsed time on the horizontal x-axis) and <em>Speed–Time Graphs</em> (plotting velocity rate on the y-axis against time on the x-axis). Interpreting the slope and shape of these curves allows scientists to evaluate an object's velocity and acceleration at any given moment.
+          </p>
+          <p>
+            <span class="font-bold text-slate-900">[Paragraph B]</span> To demonstrate kinematic graph interpretation, consider the 15-hour tracked journey of an Arctic polar bear (Figure 3 & Figure 4):
+            <br>• <strong>Phase 1 (Hours 0 to 3 - Inactivity):</strong> On the displacement-time graph, a flat horizontal line at y = 0 km signifies that the bear's displacement remains zero over the first 3 hours. On the speed-time graph, this corresponds to a horizontal line along y = 0 km/h, confirming that the animal is completely at rest.
+            <br>• <strong>Phase 2 (Hours 3 to 7 - Acceleration):</strong> Between hours 3 and 7, the bear accelerates from rest to a speed of 8 km/h. On the displacement-time graph, the motion line curves upward like a bowl, reflecting an increasing distance covered per hour (reaching 20 km at hour 7). On the speed-time graph, this phase is represented by a straight line sloping upward from (3,0) to (7,8). The slope of this line indicates a constant positive acceleration of +2 km/h per hour (+2 km/h²).
+            <br>• <strong>Phase 3 (Hours 7 to 11 - Steady Pace):</strong> Between hours 7 and 11, the bear maintains a constant average speed of 8 km/h. On the displacement-time graph, constant speed is depicted by a straight, upward-sloping diagonal line (displacement increases from 20 km to 50 km). On the speed-time graph, this phase appears as a flat, horizontal line at y = 8 km/h, reflecting zero acceleration.
+            <br>• <strong>Phase 4 (Hours 11 to 15 - Deceleration):</strong> Beginning at hour 11, the bear gradually slows down, reducing its speed by 2 km/h each hour until reaching a complete stop at hour 15. On the displacement-time graph, the line curves like an umbrella, flattening out at 65 km by hour 14. On the speed-time graph, this is shown as a straight line sloping downward from (11,8) to (15,0), representing a uniform negative acceleration (deceleration) of -2 km/h².
+          </p>
+          <p>
+            <span class="font-bold text-slate-900">[Paragraph C]</span> <strong>Advanced Kinematic Principles (Slope and Area Relations):</strong> Physics dictates two fundamental calculus relationships for motion graphs:
+            <br>1. The slope (rise over run) of a displacement–time graph at any point represents instantaneous speed: \( v = \frac{\Delta d}{\Delta t} \).
+            <br>2. The slope of a speed–time graph represents acceleration: \( a = \frac{\Delta v}{\Delta t} \).
+            <br>3. The geometric area enclosed beneath a speed–time curve represents total distance/displacement traveled. For instance, evaluating Phase 3 (a rectangle from t=7 to 11 at v=8 km/h) yields \( \text{Area} = \text{width} \times \text{height} = 4\text{ h} \times 8\text{ km/h} = 32\text{ km} \), which precisely matches the displacement increase (50 km - 20 km = 30-32 km) observed on the position graph!
+          </p>
+        </article>
+
+        <!-- Figures 3 & 4 SVGs: Displacement-Time & Speed-Time Graphs -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          <!-- Figure 3 SVG: Displacement-Time Graph -->
+          <div class="border border-slate-300 bg-white p-4 rounded shadow-sm text-center">
+            <p class="font-bold text-sm text-slate-800 mb-2">Figure 3: Displacement–Time Graph (Polar Bear Motion)</p>
+            <div class="overflow-x-auto">
+              <svg viewBox="0 0 520 320" class="w-full h-auto mx-auto" xmlns="http://www.w3.org/2000/svg">
+                <rect width="100%" height="100%" fill="#ffffff" />
+                <!-- Grid Lines -->
+                <g stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3,3">
+                  <!-- Horizontal grid: 0 to 70 km, step 10 -->
+                  <!-- y-scale: y=260 for 0 km, y=50 for 70 km (range=210 for 70 -> 3 px per km) -->
+                  <line x1="50" y1="260" x2="480" y2="260" stroke="#cbd5e1" />
+                  <line x1="50" y1="230" x2="480" y2="230" />
+                  <line x1="50" y1="200" x2="480" y2="200" />
+                  <line x1="50" y1="170" x2="480" y2="170" />
+                  <line x1="50" y1="140" x2="480" y2="140" />
+                  <line x1="50" y1="110" x2="480" y2="110" />
+                  <line x1="50" y1="80" x2="480" y2="80" />
+                  <line x1="50" y1="50" x2="480" y2="50" />
+                  <!-- Vertical grid: 0 to 15 hours -->
+                  <!-- x-scale: x=60 for 0h, x=465 for 15h (step = 27px) -->
+                  <!-- 0:60, 3:141, 7:249, 11:357, 14:438, 15:465 -->
+                  <line x1="60" y1="50" x2="60" y2="260" stroke="#cbd5e1" />
+                  <line x1="141" y1="50" x2="141" y2="260" />
+                  <line x1="249" y1="50" x2="249" y2="260" />
+                  <line x1="357" y1="50" x2="357" y2="260" />
+                  <line x1="438" y1="50" x2="438" y2="260" />
+                  <line x1="465" y1="50" x2="465" y2="260" />
+                </g>
+
+                <!-- Axes -->
+                <line x1="50" y1="260" x2="490" y2="260" stroke="#0f172a" stroke-width="2" />
+                <line x1="50" y1="40" x2="50" y2="260" stroke="#0f172a" stroke-width="2" />
+                
+                <!-- Y-Labels (Displacement km) -->
+                <g font-size="10" font-family="'Times New Roman', serif" text-anchor="end" fill="#334155">
+                  <text x="44" y="264">0</text><text x="44" y="234">10</text>
+                  <text x="44" y="204">20</text><text x="44" y="174">30</text>
+                  <text x="44" y="144">40</text><text x="44" y="114">50</text>
+                  <text x="44" y="84">60</text><text x="44" y="54">70</text>
+                </g>
+                <text x="20" y="150" font-size="11" font-weight="bold" fill="#0f172a" transform="rotate(-90 20 150)" text-anchor="middle">Displacement (km)</text>
+
+                <!-- X-Labels (Time hours) -->
+                <g font-size="10" font-family="'Times New Roman', serif" text-anchor="middle" fill="#334155">
+                  <text x="60" y="276">0</text><text x="141" y="276">3</text>
+                  <text x="249" y="276">7</text><text x="357" y="276">11</text>
+                  <text x="438" y="276">14</text><text x="465" y="276">15</text>
+                </g>
+                <text x="260" y="298" font-size="11" font-weight="bold" fill="#0f172a" text-anchor="middle">Time (hours)</text>
+
+                <!-- Motion Curve: Phase 1 (0 to 3h), Phase 2 (3 to 7h), Phase 3 (7 to 11h), Phase 4 (11 to 14/15h) -->
+                <!-- P1: (60,260) to (141,260) -->
+                <!-- P2: bowl curve from (141,260) to (249, 200 [20km]) -->
+                <!-- P3: linear straight line from (249, 200) to (357, 110 [50km]) -->
+                <!-- P4: umbrella flattening curve from (357, 110) to (438, 65 [65km]) and flat to (465, 65) -->
+                <path d="M 60,260 L 141,260 Q 195,255 249,200 L 357,110 Q 400,75 438,65 L 465,65" 
+                      fill="none" stroke="#1e3a8a" stroke-width="3" stroke-linecap="round" />
+
+                <!-- Points of Interest -->
+                <circle cx="60" cy="260" r="4.5" fill="#dc2626" />
+                <circle cx="141" cy="260" r="4.5" fill="#dc2626" />
+                <circle cx="249" cy="200" r="4.5" fill="#dc2626" />
+                <circle cx="357" cy="110" r="4.5" fill="#dc2626" />
+                <circle cx="438" cy="65" r="4.5" fill="#dc2626" />
+                <circle cx="465" cy="65" r="4.5" fill="#dc2626" />
+
+                <!-- Curve Annotations -->
+                <text x="100" y="245" font-size="9" fill="#64748b" text-anchor="middle">Phase 1: Rest</text>
+                <text x="180" y="220" font-size="9" fill="#1e40af" font-weight="bold" text-anchor="middle">Phase 2: Bowl Curve (Speeding Up)</text>
+                <text x="320" y="160" font-size="9" fill="#15803d" font-weight="bold" text-anchor="middle">Phase 3: Linear Slope (v=8 km/h)</text>
+                <text x="430" y="50" font-size="9" fill="#b91c1c" font-weight="bold" text-anchor="middle">Phase 4: Umbrella (Slow Down)</text>
+              </svg>
+            </div>
+            <p class="text-xs text-slate-500 mt-1">Displacement s(t) showing 4 distinct kinetic regimes.</p>
+          </div>
+
+          <!-- Figure 4 SVG: Speed-Time Graph -->
+          <div class="border border-slate-300 bg-white p-4 rounded shadow-sm text-center">
+            <p class="font-bold text-sm text-slate-800 mb-2">Figure 4: Speed–Time Graph (Polar Bear Motion)</p>
+            <div class="overflow-x-auto">
+              <svg viewBox="0 0 520 320" class="w-full h-auto mx-auto" xmlns="http://www.w3.org/2000/svg">
+                <rect width="100%" height="100%" fill="#ffffff" />
+                <!-- Grid Lines -->
+                <g stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3,3">
+                  <!-- y-scale: 0 to 8 km/h (260 down to 60, step=25px per 1 km/h) -->
+                  <line x1="50" y1="260" x2="480" y2="260" stroke="#cbd5e1" />
+                  <line x1="50" y1="235" x2="480" y2="235" /><line x1="50" y1="210" x2="480" y2="210" />
+                  <line x1="50" y1="185" x2="480" y2="185" /><line x1="50" y1="160" x2="480" y2="160" />
+                  <line x1="50" y1="135" x2="480" y2="135" /><line x1="50" y1="110" x2="480" y2="110" />
+                  <line x1="50" y1="85" x2="480" y2="85" /><line x1="50" y1="60" x2="480" y2="60" />
+                  <!-- x-scale: 0h:60, 3h:141, 7h:249, 11h:357, 15h:465 -->
+                  <line x1="60" y1="60" x2="60" y2="260" stroke="#cbd5e1" />
+                  <line x1="141" y1="60" x2="141" y2="260" />
+                  <line x1="249" y1="60" x2="249" y2="260" />
+                  <line x1="357" y1="60" x2="357" y2="260" />
+                  <line x1="465" y1="60" x2="465" y2="260" />
+                </g>
+
+                <!-- Shaded Integral Area under curve -->
+                <polygon points="141,260 249,60 357,60 465,260" fill="#fee2e2" opacity="0.6" />
+
+                <!-- Axes -->
+                <line x1="50" y1="260" x2="490" y2="260" stroke="#0f172a" stroke-width="2" />
+                <line x1="50" y1="40" x2="50" y2="260" stroke="#0f172a" stroke-width="2" />
+
+                <!-- Y-Labels (Speed km/h) -->
+                <g font-size="10" font-family="'Times New Roman', serif" text-anchor="end" fill="#334155">
+                  <text x="44" y="264">0</text><text x="44" y="239">1</text>
+                  <text x="44" y="214">2</text><text x="44" y="189">3</text>
+                  <text x="44" y="164">4</text><text x="44" y="139">5</text>
+                  <text x="44" y="114">6</text><text x="44" y="89">7</text>
+                  <text x="44" y="64">8</text>
+                </g>
+                <text x="20" y="150" font-size="11" font-weight="bold" fill="#0f172a" transform="rotate(-90 20 150)" text-anchor="middle">Speed (km/h)</text>
+
+                <!-- X-Labels (Time hours) -->
+                <g font-size="10" font-family="'Times New Roman', serif" text-anchor="middle" fill="#334155">
+                  <text x="60" y="276">0</text><text x="141" y="276">3</text>
+                  <text x="249" y="276">7</text><text x="357" y="276">11</text>
+                  <text x="465" y="276">15</text>
+                </g>
+                <text x="260" y="298" font-size="11" font-weight="bold" fill="#0f172a" text-anchor="middle">Time (hours)</text>
+
+                <!-- Velocity Profile Line -->
+                <polyline points="60,260 141,260 249,60 357,60 465,260" fill="none" stroke="#dc2626" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+
+                <!-- Vertices -->
+                <circle cx="60" cy="260" r="4.5" fill="#b91c1c" />
+                <circle cx="141" cy="260" r="4.5" fill="#b91c1c" />
+                <circle cx="249" cy="60" r="4.5" fill="#b91c1c" />
+                <circle cx="357" cy="60" r="4.5" fill="#b91c1c" />
+                <circle cx="465" cy="260" r="4.5" fill="#b91c1c" />
+
+                <!-- Phase annotations -->
+                <text x="95" y="250" font-size="9" fill="#475569" font-weight="bold">Phase 1: v=0</text>
+                <text x="175" y="150" font-size="9" fill="#1e40af" font-weight="bold">Phase 2: +2 km/h²</text>
+                <text x="303" y="48" font-size="9" fill="#15803d" font-weight="bold">Phase 3: v=8 km/h (a=0)</text>
+                <text x="420" y="150" font-size="9" fill="#991b1b" font-weight="bold">Phase 4: -2 km/h²</text>
+                <text x="303" y="160" font-size="10" fill="#991b1b" font-style="italic" text-anchor="middle">Enclosed Area = Total Relocation</text>
+              </svg>
+            </div>
+            <p class="text-xs text-slate-500 mt-1">Velocity v(t) curve with shaded area integration.</p>
+          </div>
+        </div>
+
+        <!-- Questions 28-32: Graph Data Extraction -->
+        <div class="mb-8">
+          <h4 class="font-bold text-base border-b border-slate-300 pb-1 mb-2 text-slate-900">
+            Questions 28–32: Graph Data Extraction & Feature Matching
+          </h4>
+          <p class="text-xs text-slate-600 mb-4 italic">Answer the questions below using information from Reading Passage 3 and Figures 3 & 4.</p>
+
+          <div class="space-y-3 text-sm">
+            <div class="p-3 bg-white border border-stone-200 rounded">
+              <div class="flex justify-between items-center mb-1">
+                <span class="font-medium text-slate-900">28. What physical state does a horizontal line at y = 0 represent on a speed–time graph?</span>
+                <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-sans">Tier 1 - Easy</span>
+              </div>
+              <input type="text" name="q28" placeholder="e.g. at rest / stationary" class="border border-slate-400 px-2.5 py-1 text-sm rounded w-full sm:w-80" oninput="registerAnswer(28)">
+            </div>
+
+            <div class="p-3 bg-white border border-stone-200 rounded">
+              <div class="flex justify-between items-center mb-1">
+                <span class="font-medium text-slate-900">29. What specific shape on a displacement–time graph indicates that an object is moving at a constant average speed?</span>
+                <span class="text-xs bg-amber-100 text-amber-900 px-2 py-0.5 rounded font-sans">Tier 2 - Intermediate</span>
+              </div>
+              <input type="text" name="q29" placeholder="e.g. straight diagonal line" class="border border-slate-400 px-2.5 py-1 text-sm rounded w-full sm:w-80" oninput="registerAnswer(29)">
+            </div>
+
+            <div class="p-3 bg-white border border-stone-200 rounded">
+              <div class="flex justify-between items-center mb-1">
+                <span class="font-medium text-slate-900">30. During which hour interval did the polar bear exhibit an upward bowl-shaped curve on its displacement–time graph?</span>
+                <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-sans">Tier 1 - Easy</span>
+              </div>
+              <input type="text" name="q30" placeholder="e.g. Hours 3 to 7" class="border border-slate-400 px-2.5 py-1 text-sm rounded w-full sm:w-80" oninput="registerAnswer(30)">
+            </div>
+
+            <div class="p-3 bg-white border border-stone-200 rounded">
+              <div class="flex justify-between items-center mb-1">
+                <span class="font-medium text-slate-900">31. On a speed–time graph, how is a steady velocity of 8 km/h represented between hours 7 and 11?</span>
+                <span class="text-xs bg-amber-100 text-amber-900 px-2 py-0.5 rounded font-sans">Tier 2 - Intermediate</span>
+              </div>
+              <input type="text" name="q31" placeholder="e.g. horizontal flat line" class="border border-slate-400 px-2.5 py-1 text-sm rounded w-full sm:w-80" oninput="registerAnswer(31)">
+            </div>
+
+            <div class="p-3 bg-white border border-stone-200 rounded">
+              <div class="flex justify-between items-center mb-1">
+                <span class="font-medium text-slate-900">32. What rate of change occurs in the bear's speed during the slowing down phase between hours 11 and 15?</span>
+                <span class="text-xs bg-amber-100 text-amber-900 px-2 py-0.5 rounded font-sans">Tier 2 - Intermediate</span>
+              </div>
+              <input type="text" name="q32" placeholder="e.g. -2 km/h per hour" class="border border-slate-400 px-2.5 py-1 text-sm rounded w-full sm:w-80" oninput="registerAnswer(32)">
+            </div>
+          </div>
+        </div>
+
+        <!-- Questions 33-40: Advanced Physics Challenge & Hurdle Problems -->
+        <div>
+          <div class="flex items-center justify-between border-b border-slate-300 pb-1 mb-2">
+            <h4 class="font-bold text-base text-slate-900">
+              Questions 33–40: Advanced Physics Challenge & Hurdle Problems
+            </h4>
+            <span class="text-xs font-bold text-purple-900 bg-purple-100 px-2.5 py-0.5 rounded uppercase tracking-wider">
+              20% Distinction Tier (Band 8.0+ Hurdle)
+            </span>
+          </div>
+          <p class="text-xs text-slate-600 mb-4 italic">Solve the following analytical kinematic problems. Show exact numerical values, formulas, or concise physical reasoning.</p>
+
+          <div class="space-y-4 text-sm">
+            <!-- Q33 -->
+            <div class="p-3.5 bg-white border border-stone-200 rounded">
+              <div class="flex justify-between items-baseline mb-1">
+                <span class="font-medium text-slate-900">33. Calculate the exact rate of acceleration during Phase 2 (Hours 3 to 7) using formula \( a = \frac{v_{\text{final}} - v_{\text{initial}}}{\Delta t} \):</span>
+                <span class="text-xs bg-purple-100 text-purple-900 px-2 py-0.5 rounded font-sans font-bold">Tier 3</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <input type="text" name="q33" placeholder="e.g. +2 km/h²" class="border border-slate-400 px-2.5 py-1 text-sm rounded w-48" oninput="registerAnswer(33)">
+                <span class="text-xs text-slate-500">(km/h²)</span>
+              </div>
+            </div>
+
+            <!-- Q34 -->
+            <div class="p-3.5 bg-white border border-stone-200 rounded">
+              <div class="flex justify-between items-baseline mb-1">
+                <span class="font-medium text-slate-900">34. Calculate the rate of deceleration (negative acceleration) during Phase 4 (Hours 11 to 15) from the speed–time graph:</span>
+                <span class="text-xs bg-purple-100 text-purple-900 px-2 py-0.5 rounded font-sans font-bold">Tier 3</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <input type="text" name="q34" placeholder="e.g. -2 km/h²" class="border border-slate-400 px-2.5 py-1 text-sm rounded w-48" oninput="registerAnswer(34)">
+                <span class="text-xs text-slate-500">(km/h²)</span>
+              </div>
+            </div>
+
+            <!-- Q35 -->
+            <div class="p-3.5 bg-white border border-stone-200 rounded">
+              <div class="flex justify-between items-baseline mb-1">
+                <span class="font-medium text-slate-900">35. By calculating the geometric area beneath the speed–time curve during Phase 3 (Hours 7 to 11, rectangle), determine the distance traveled in this phase:</span>
+                <span class="text-xs bg-purple-100 text-purple-900 px-2 py-0.5 rounded font-sans font-bold">Tier 3</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <input type="text" name="q35" placeholder="e.g. 32 km" class="border border-slate-400 px-2.5 py-1 text-sm rounded w-48" oninput="registerAnswer(35)">
+                <span class="text-xs text-slate-500">(km)</span>
+              </div>
+            </div>
+
+            <!-- Q36 -->
+            <div class="p-3.5 bg-white border border-stone-200 rounded">
+              <div class="flex justify-between items-baseline mb-1">
+                <span class="font-medium text-slate-900">36. Calculate the combined area beneath the speed–time graph for Phase 2 (triangle, 3–7 h) and Phase 4 (triangle, 11–15 h). Triangle area = 0.5 x base x height:</span>
+                <span class="text-xs bg-purple-100 text-purple-900 px-2 py-0.5 rounded font-sans font-bold">Tier 3</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <input type="text" name="q36" placeholder="e.g. 32 km" class="border border-slate-400 px-2.5 py-1 text-sm rounded w-48" oninput="registerAnswer(36)">
+                <span class="text-xs text-slate-500">(km)</span>
+              </div>
+            </div>
+
+            <!-- Q37 -->
+            <div class="p-3.5 bg-white border border-stone-200 rounded">
+              <div class="flex justify-between items-baseline mb-1">
+                <span class="font-medium text-slate-900">37. Explain why an umbrella-shaped curve on a displacement–time graph corresponds to a downward-sloping line on a speed–time graph:</span>
+                <span class="text-xs bg-purple-100 text-purple-900 px-2 py-0.5 rounded font-sans font-bold">Tier 3</span>
+              </div>
+              <textarea name="q37" rows="2" placeholder="Explain the relationship between curve slope (gradient) and instantaneous velocity..." class="border border-slate-400 p-2 text-sm rounded w-full" oninput="registerAnswer(37)"></textarea>
+            </div>
+
+            <!-- Q38 -->
+            <div class="p-3.5 bg-white border border-stone-200 rounded">
+              <div class="flex justify-between items-baseline mb-1">
+                <span class="font-medium text-slate-900">38. Multi-Step Calculation: If the polar bear had maintained its steady speed of 8 km/h continuously from hour 7 through hour 15 without slowing down, what would its total displacement be at hour 15?</span>
+                <span class="text-xs bg-purple-100 text-purple-900 px-2 py-0.5 rounded font-sans font-bold">Tier 3</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <input type="text" name="q38" placeholder="e.g. 84 km" class="border border-slate-400 px-2.5 py-1 text-sm rounded w-48" oninput="registerAnswer(38)">
+                <span class="text-xs text-slate-500">(km)</span>
+              </div>
+            </div>
+
+            <!-- Q39 -->
+            <div class="p-3.5 bg-white border border-stone-200 rounded">
+              <div class="flex justify-between items-baseline mb-1">
+                <span class="font-medium text-slate-900">39. 2D Vector Calculus: A research vehicle travels 30 km East (positive x-direction) and then 40 km North (positive y-direction). Calculate the magnitude of its total displacement from the origin using the Pythagorean theorem:</span>
+                <span class="text-xs bg-purple-100 text-purple-900 px-2 py-0.5 rounded font-sans font-bold">Tier 3</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <input type="text" name="q39" placeholder="e.g. 50 km" class="border border-slate-400 px-2.5 py-1 text-sm rounded w-48" oninput="registerAnswer(39)">
+                <span class="text-xs text-slate-500">(km)</span>
+              </div>
+            </div>
+
+            <!-- Q40 -->
+            <div class="p-3.5 bg-white border border-stone-200 rounded">
+              <div class="flex justify-between items-baseline mb-1">
+                <span class="font-medium text-slate-900">40. Analytical Vector Proof: Prove mathematically why running a home run around a square 90-foot baseball diamond results in zero displacement despite covering 360 feet of total path length:</span>
+                <span class="text-xs bg-purple-100 text-purple-900 px-2 py-0.5 rounded font-sans font-bold">Tier 3</span>
+              </div>
+              <textarea name="q40" rows="3" placeholder="Provide proof using vector components or starting vs final position vectors..." class="border border-slate-400 p-2 text-sm rounded w-full" oninput="registerAnswer(40)"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Examination Submit Footer Bar -->
+        <div class="mt-12 pt-6 border-t-2 border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div>
+            <p class="text-sm font-bold text-slate-800">END OF QUESTION PAPER</p>
+            <p class="text-xs text-slate-600">Review all answers before final submission. Once submitted, your script will be graded instantaneously.</p>
+          </div>
+          <button onclick="confirmSubmissionModal()" class="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white font-bold py-2.5 px-8 rounded shadow text-sm tracking-wider uppercase flex items-center justify-center space-x-2 transition">
+            <i data-lucide="check-circle" class="w-4 h-4"></i>
+            <span>Complete & Grade Examination</span>
+          </button>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ==================== AUTOMATED DIAGNOSTIC GRADING REPORT MODAL / VIEW ==================== -->
+  <section id="reportContainer" class="hidden max-w-6xl mx-auto my-6 px-3 sm:px-6 fade-in">
+    <div class="exam-paper p-6 sm:p-10 rounded-sm">
+      
+      <!-- Report Header -->
+      <div class="academic-double-border p-6 mb-8 text-center bg-[#fdfdfb]">
+        <div class="flex justify-between items-center border-b border-slate-400 pb-2 mb-3">
+          <span class="text-xs uppercase font-bold tracking-widest text-slate-600">Official Standardized Transcript</span>
+          <span class="text-xs font-mono text-slate-500">TRANSCRIPT-REF: PHYS-2026-80042</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold uppercase text-slate-900">
+          Academic Diagnostic & Grading Assessment Report
+        </h2>
+        <p class="text-sm text-slate-700 italic">IELTS Physics Kinematics Standardized Assessment (Distance & Displacement)</p>
+        
+        <!-- Summary Band & Pass Status Hero -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6 p-4 bg-stone-50 border border-slate-300 rounded text-left">
+          <div class="border-b md:border-b-0 md:border-r border-slate-300 pb-3 md:pb-0 md:pr-4">
+            <p class="text-xs uppercase tracking-wider font-bold text-slate-500">Achieved Raw Score</p>
+            <div class="flex items-baseline space-x-2">
+              <span id="reportTotalScore" class="text-4xl font-black text-slate-900">0</span>
+              <span class="text-xl font-bold text-slate-600">/ 40</span>
+              <span id="reportPercentage" class="text-sm font-semibold text-slate-700 ml-2">(0%)</span>
+            </div>
+            <p class="text-xs text-slate-600 mt-1">Pass Criterion: 32 / 40 (80%)</p>
+          </div>
+
+          <div class="border-b md:border-b-0 md:border-r border-slate-300 pb-3 md:pb-0 md:pr-4">
+            <p class="text-xs uppercase tracking-wider font-bold text-slate-500">IELTS Physics Band Equivalence</p>
+            <div class="flex items-baseline space-x-2">
+              <span id="reportBandScore" class="text-4xl font-black text-amber-800">Band --</span>
+            </div>
+            <p id="reportBandDescriptor" class="text-xs font-bold text-slate-800 mt-1">Status: Pending</p>
+          </div>
+
+          <div>
+            <p class="text-xs uppercase tracking-wider font-bold text-slate-500">Assessment Result</p>
+            <div id="reportBadge" class="mt-1 inline-block px-3 py-1 text-sm font-extrabold uppercase tracking-wide rounded">
+              --
+            </div>
+            <p id="reportTimeTaken" class="text-xs text-slate-600 mt-2">Time Elapsed: --:--</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cognitive Tier Breakdown Table -->
+      <div class="mb-8">
+        <h3 class="text-lg font-bold border-b-2 border-slate-800 pb-1 mb-3 uppercase tracking-wider text-slate-900">
+          Cognitive Difficulty Tier Breakdown
+        </h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left table-academic text-sm bg-white">
+            <thead class="bg-stone-100 font-bold">
+              <tr>
+                <th>Tier Classification</th>
+                <th>Target Competencies</th>
+                <th>Question Count</th>
+                <th>Achieved Score</th>
+                <th>Proficiency Level</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="font-bold text-emerald-800">Tier 1 (Easy - 50%)</td>
+                <td>Direct factual recall, basic definitions, standard 1D axis reading</td>
+                <td>20 Questions (1–3, 6–11, 13, 15, 17–18, 20, 24, 27, 28, 30)</td>
+                <td id="tier1ScoreCell" class="font-bold">0 / 20 (0%)</td>
+                <td id="tier1ProficiencyCell">Pending</td>
+              </tr>
+              <tr>
+                <td class="font-bold text-amber-800">Tier 2 (Intermediate - 30%)</td>
+                <td>Multi-step arithmetic, 1D/2D relative motion, slope characterization</td>
+                <td>12 Questions (4–5, 12, 14, 16, 19, 21, 23, 25–26, 29, 31–32)</td>
+                <td id="tier2ScoreCell" class="font-bold">0 / 12 (0%)</td>
+                <td id="tier2ProficiencyCell">Pending</td>
+              </tr>
+              <tr>
+                <td class="font-bold text-purple-900">Tier 3 (Challenge - 20%)</td>
+                <td>Calculus slope derivation, area integration, vector proofs & hurdles</td>
+                <td>8 Questions (22, 33–40)</td>
+                <td id="tier3ScoreCell" class="font-bold">0 / 8 (0%)</td>
+                <td id="tier3ProficiencyCell">Pending</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Dynamic Strengths, Weaknesses & Improvement Strategy -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <!-- Strengths Card -->
+        <div class="bg-emerald-50 border border-emerald-300 p-5 rounded">
+          <div class="flex items-center space-x-2 border-b border-emerald-300 pb-2 mb-3">
+            <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-800"></i>
+            <h4 class="font-bold text-base uppercase text-emerald-900 tracking-wider">Identified Core Strengths</h4>
+          </div>
+          <ul id="reportStrengthsList" class="list-disc list-inside text-sm text-emerald-950 space-y-2">
+            <!-- Injected via JavaScript -->
+          </ul>
+        </div>
+
+        <!-- Weaknesses & Areas for Improvement Card -->
+        <div class="bg-amber-50 border border-amber-300 p-5 rounded">
+          <div class="flex items-center space-x-2 border-b border-amber-300 pb-2 mb-3">
+            <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-800"></i>
+            <h4 class="font-bold text-base uppercase text-amber-900 tracking-wider">Targeted Areas for Improvement</h4>
+          </div>
+          <ul id="reportWeaknessesList" class="list-disc list-inside text-sm text-amber-950 space-y-2">
+            <!-- Injected via JavaScript -->
+          </ul>
+        </div>
+      </div>
+
+      <!-- Comprehensive Pedagogical Roadmap -->
+      <div class="bg-stone-50 border border-slate-300 p-5 rounded mb-10 text-sm leading-relaxed">
+        <h4 class="font-bold uppercase tracking-wider text-slate-800 mb-2 border-b border-slate-300 pb-1">
+          High-Yield Academic Kinematics Roadmap (To Secure Band 8.5–9.0 Distinction)
+        </h4>
+        <div id="reportRoadmapText" class="space-y-2 text-slate-800">
+          <!-- Injected via JavaScript -->
+        </div>
+      </div>
+
+      <!-- Question-by-Question Marking Review Table -->
+      <div class="mb-10">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b-2 border-slate-900 pb-2 mb-4 gap-2">
+          <h3 class="text-lg font-bold uppercase tracking-wider text-slate-900">
+            Comprehensive Marking Scheme & Item Solutions (Questions 1–40)
+          </h3>
+          <!-- Filter Buttons -->
+          <div class="flex space-x-1 text-xs">
+            <button onclick="filterReviewTable('ALL')" class="px-2.5 py-1 bg-slate-800 text-white rounded font-sans hover:bg-slate-700">All (40)</button>
+            <button onclick="filterReviewTable('INCORRECT')" class="px-2.5 py-1 bg-red-100 text-red-900 rounded font-sans font-bold hover:bg-red-200">Incorrect Only</button>
+            <button onclick="filterReviewTable('TIER3')" class="px-2.5 py-1 bg-purple-100 text-purple-900 rounded font-sans font-bold hover:bg-purple-200">Tier 3 Challenge</button>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left table-academic text-xs sm:text-sm bg-white" id="markingSchemeTable">
+            <thead class="bg-stone-100 font-bold">
+              <tr>
+                <th class="w-12 text-center">Q#</th>
+                <th class="w-24">Tier</th>
+                <th>Candidate Response</th>
+                <th>Official Solution</th>
+                <th class="w-20 text-center">Outcome</th>
+                <th>Step-by-Step Physics Rationale & Lesson Source</th>
+              </tr>
+            </thead>
+            <tbody id="reviewTableBody">
+              <!-- Dynamically populated 40 questions -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Bottom Action Controls -->
+      <div class="flex flex-wrap items-center justify-between gap-4 pt-6 border-t-2 border-slate-800 no-print">
+        <div class="flex items-center space-x-3">
+          <button onclick="window.print()" class="bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded text-xs font-bold uppercase tracking-wider flex items-center space-x-1.5 shadow">
+            <i data-lucide="printer" class="w-4 h-4"></i>
+            <span>Print Official Transcript</span>
+          </button>
+          <button onclick="retakeExam()" class="bg-stone-200 hover:bg-stone-300 text-slate-900 border border-slate-400 px-4 py-2 rounded text-xs font-bold uppercase tracking-wider flex items-center space-x-1.5">
+            <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+            <span>Retake Examination</span>
+          </button>
+        </div>
+        <button onclick="scrollToExamTop()" class="text-xs text-slate-600 hover:underline flex items-center space-x-1">
+          <i data-lucide="arrow-up" class="w-3.5 h-3.5"></i>
+          <span>Return to Top</span>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== QUESTION NAVIGATOR / PALETTE MODAL ==================== -->
+  <div id="navModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4 no-print fade-in">
+    <div class="bg-white rounded-lg shadow-xl max-w-xl w-full p-5 border border-slate-300 max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center border-b border-slate-200 pb-3 mb-4">
+        <div class="flex items-center space-x-2">
+          <i data-lucide="grid" class="w-5 h-5 text-slate-700"></i>
+          <h3 class="font-bold text-base text-slate-900">Question Navigator (40 Items)</h3>
+        </div>
+        <button onclick="toggleNavModal()" class="text-slate-400 hover:text-slate-700">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="flex flex-wrap gap-3 text-xs mb-4 p-2 bg-stone-50 rounded border border-stone-200">
+        <div class="flex items-center space-x-1"><span class="w-3 h-3 bg-emerald-600 rounded-full inline-block"></span><span>Answered</span></div>
+        <div class="flex items-center space-x-1"><span class="w-3 h-3 bg-stone-200 border border-slate-400 rounded-full inline-block"></span><span>Unattempted</span></div>
+        <div class="flex items-center space-x-1"><span class="w-3 h-3 border-2 border-purple-600 rounded-full inline-block"></span><span>Tier 3 Challenge</span></div>
+      </div>
+
+      <!-- 40 Buttons Grid -->
+      <div class="grid grid-cols-8 sm:grid-cols-10 gap-2 mb-6" id="navGrid">
+        <!-- Rendered via JS -->
+      </div>
+
+      <div class="text-right">
+        <button onclick="toggleNavModal()" class="px-4 py-1.5 bg-slate-800 text-white rounded text-xs font-bold uppercase tracking-wider">
+          Close Navigator
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SUBMISSION CONFIRMATION MODAL ==================== -->
+  <div id="submitModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4 no-print fade-in">
+    <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6 border border-slate-300 text-center">
+      <div class="w-12 h-12 bg-amber-100 text-amber-800 rounded-full flex items-center justify-center mx-auto mb-3">
+        <i data-lucide="alert-circle" class="w-6 h-6"></i>
+      </div>
+      <h3 class="font-bold text-lg text-slate-900 mb-1">Confirm Final Submission</h3>
+      <p class="text-xs text-slate-600 mb-4">
+        Are you sure you wish to submit your physics examination paper?
+      </p>
+
+      <div class="bg-stone-50 border border-slate-200 p-3 rounded mb-5 text-xs text-left space-y-1">
+        <p>• Questions Answered: <strong id="modalAnsweredCount" class="text-slate-900">0</strong> / 40</p>
+        <p>• Unattempted Items: <strong id="modalUnansweredCount" class="text-red-700">40</strong></p>
+        <p>• Scheduled Time Remaining: <strong id="modalTimeRemaining" class="text-amber-800">50:00</strong></p>
+      </div>
+
+      <div class="flex space-x-3 justify-center">
+        <button onclick="toggleSubmitModal()" class="px-4 py-2 border border-slate-400 text-slate-700 rounded text-xs font-bold uppercase tracking-wider hover:bg-stone-100">
+          Continue Testing
+        </button>
+        <button onclick="finalizeAndGradeExam()" class="px-5 py-2 bg-red-800 hover:bg-red-900 text-white rounded text-xs font-bold uppercase tracking-wider shadow">
+          Submit & Grade Now
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TIME-UP NOTIFICATION MODAL ==================== -->
+  <div id="timeUpModal" class="fixed inset-0 bg-black/75 z-50 hidden flex items-center justify-center p-4 no-print fade-in">
+    <div class="bg-white rounded-lg shadow-2xl max-w-md w-full p-6 border-2 border-red-800 text-center">
+      <div class="w-14 h-14 bg-red-100 text-red-800 rounded-full flex items-center justify-center mx-auto mb-3">
+        <i data-lucide="alarm-clock" class="w-8 h-8"></i>
+      </div>
+      <h3 class="font-black text-xl text-slate-900 mb-1">Time Has Expired!</h3>
+      <p class="text-sm text-slate-600 mb-4">
+        The designated 50-minute testing window has reached 00:00. Your examination paper is now being processed automatically.
+      </p>
+      <button onclick="proceedFromTimeUp()" class="w-full px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded uppercase tracking-wider text-xs">
+        View Diagnostic Score Report
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== LOGIC & AUTOMATED MARKING SYSTEM ==================== -->
+  <script>
+    /* Official Marking Scheme & Question Grounding Data */
+    const EXAM_DATA = [
+      { q: 1, tier: 1, key: "B", type: "mcq", source: "Mo4-L1 (1.png / 7.png)", explain: "Paragraph A states that to determine if a shift in location has occurred, observers must establish a stationary reference point as an anchor benchmark." },
+      { q: 2, tier: 1, key: "B", type: "mcq", source: "Mo4-L1 (7.png / 8.png)", explain: "Paragraph B explicitly states that specifying an object's position requires three indispensable pieces of information: distance, direction, and a reference point." },
+      { q: 3, tier: 1, key: "B", type: "mcq", source: "Mo4-L1 (9.png)", explain: "East is defined as positive (+); moving West (opposite) yields a negative coordinate: -30 m." },
+      { q: 4, tier: 2, key: "C", type: "mcq", source: "Mo4-L1 (11.png / 14.png)", explain: "Paragraph D specifies that motion is relative: the distance and orientation between the fisherman and his held pole remain constant, so he is not in motion relative to it." },
+      { q: 5, tier: 2, key: "B", type: "mcq", source: "Mo4-L1 (9.png / 10.png)", explain: "In two dimensions (2D), an observer must specify a reference point plus distances along two distinct reference directions (Cartesian axes)." },
+      { q: 6, tier: 1, key: "TRUE", type: "tfng", source: "Mo4-L1 (11.png)", explain: "Paragraph D confirms: an entity can be simultaneously at rest relative to one reference frame (pole) and in active motion relative to another (buoy)." },
+      { q: 7, tier: 1, key: "FALSE", type: "tfng", source: "Mo4-L1 (7.png)", explain: "Paragraph A & B state that without an explicit reference point, statements regarding an object's location remain scientifically incomplete." },
+      { q: 8, tier: 1, key: "TRUE", type: "tfng", source: "Mo4-L1 (7.png / 8.png)", explain: "Changing the reference benchmark changes the numerical distances and directions assigned to describe a position." },
+      { q: 9, tier: 1, key: "NOT GIVEN", type: "tfng", source: "Mo4-L1 (9.png)", explain: "The passage discusses perpendicular reference directions (Cartesian axes) but makes no mention of satellite polar grid software." },
+      { q: 10, tier: 1, key: "TRUE", type: "tfng", source: "Mo4-L1 (9.png)", explain: "Paragraph B notes that motion or location in the direction opposite to the positive reference direction is designated as negative (-)." },
+      { q: 11, tier: 1, key: "reference point", type: "text", source: "Mo4-L1 (1.png / 7.png)", explain: "Paragraph A: A stationary benchmark or starting origin used to measure position and movement is termed a 'reference point'." },
+      { q: 12, tier: 2, key: "+50", altKeys: ["+50 m", "50", "50 m", "+50m", "50m"], type: "text", source: "Mo4-L1 (9.png)", explain: "The Museum is situated 50 meters East along the positive coordinate axis from the Bus Stop (0 m), yielding +50 m." },
+      { q: 13, tier: 1, key: "motion", type: "text", source: "Mo4-L1 (1.png / 11.png)", explain: "Paragraph A: Motion is formally defined as the process of changing position over time." },
+      { q: 14, tier: 2, key: "position", type: "text", source: "Mo4-L1 (11.png / 14.png)", explain: "Paragraph D: Compared to a stationary buoy fixed in the river, a drifting rowboat undergoes a continuous change in position." },
+      { q: 15, tier: 1, key: "C", type: "match", source: "Mo4-L2 (12.png / 14.png)", explain: "Paragraph C (Scenario 3) explains that running a full home run circuit returns the player to the origin, yielding 0 ft net displacement." },
+      { q: 16, tier: 2, key: "D", type: "match", source: "Mo4-L2 (12.png)", explain: "Paragraph D states the universal rule: distance and displacement are equal IF AND ONLY IF motion proceeds along a single straight line in one unchanging direction." },
+      { q: 17, tier: 1, key: "B", type: "match", source: "Mo4-L2 (2.png)", explain: "Paragraph B describes hikers taking a 200 m winding trail while surveyor straight-line measuring cable measures 120 m." },
+      { q: 18, tier: 1, key: "A", type: "match", source: "Mo4-L2 (2.png / 11.png)", explain: "Paragraph A provides the foundational physical definitions distinguishing scalar distance from vector displacement." },
+      { q: 19, tier: 2, key: "720 ft", altKeys: ["720", "720ft", "720 feet"], type: "numeric", num: 720, source: "Mo4-L2 (12.png)", explain: "One full lap around the 90-ft diamond = 4 x 90 = 360 ft. Two full laps = 2 x 360 ft = 720 ft." },
+      { q: 20, tier: 1, key: "0 ft", altKeys: ["0", "0ft", "zero", "0 feet"], type: "numeric", num: 0, source: "Mo4-L2 (12.png)", explain: "Returning to the starting origin leaves initial and final positions identical; displacement = 0 ft." },
+      { q: 21, tier: 2, key: "40%", altKeys: ["40", "40 %"], type: "numeric", num: 40, source: "Mo4-L2 (2.png)", explain: "[(200 - 120) / 200] x 100% = (80 / 200) x 100% = 0.40 x 100% = 40% reduction." },
+      { q: 22, tier: 3, key: "90 ft", altKeys: ["90", "90ft", "90 feet"], type: "numeric", num: 90, source: "Mo4-L2 (12.png)", explain: "At 3rd base, the straight-line gap across the baseline back to Home Plate is exactly 90 ft (vector from (0,0) to (0,90))." },
+      { q: 23, tier: 2, key: "|d| <= s", altKeys: ["|d|<=s", "d<=s", "d <= s", "|d| ≤ s", "d ≤ s", "displacement <= distance"], type: "ineq", source: "Mo4-L2 (12.png / 13.png)", explain: "Displacement magnitude (|d|) is always less than or equal to total distance (s): |d| ≤ s." },
+      { q: 24, tier: 1, key: "D", type: "bank", source: "Mo4-L2 (2.png)", explain: "Distance has magnitude only, making it a Scalar quantity (D)." },
+      { q: 25, tier: 1, key: "B", type: "bank", source: "Mo4-L2 (11.png / 12.png)", explain: "Displacement depends strictly on the direct gap between the Initial (B) and final positions." },
+      { q: 26, tier: 2, key: "A", type: "bank", source: "Mo4-L2 (12.png)", explain: "Whenever an object changes its Direction (A) during travel, total distance exceeds displacement." },
+      { q: 27, tier: 1, key: "C", type: "bank", source: "Mo4-L2 (12.png)", explain: "Returning to the origin brings net displacement down to Zero (C)." },
+      { q: 28, tier: 1, key: "at rest", altKeys: ["stationary", "zero speed", "rest", "stopped", "not moving"], type: "text", source: "Mo4-L3 (5.png)", explain: "A horizontal line at y = 0 km/h on a speed-time graph signifies that the object is stationary / at rest." },
+      { q: 29, tier: 2, key: "straight diagonal line", altKeys: ["straight line", "diagonal line", "straight upward sloping line", "linear"], type: "text", source: "Mo4-L3 (4.png)", explain: "A straight, constant upward slope on a displacement-time graph indicates constant average speed." },
+      { q: 30, tier: 1, key: "hours 3 to 7", altKeys: ["3 to 7", "3-7", "hours 3-7", "phase 2"], type: "text", source: "Mo4-L3 (4.png)", explain: "The bowl-shaped upward curve occurs during Phase 2 (Hours 3 to 7) as the bear accelerates from rest." },
+      { q: 31, tier: 2, key: "horizontal flat line", altKeys: ["flat line", "horizontal line", "horizontal", "flat"], type: "text", source: "Mo4-L3 (5.png)", explain: "A constant speed of 8 km/h is depicted as a horizontal flat line at y = 8 km/h on a speed-time plot." },
+      { q: 32, tier: 2, key: "-2 km/h²", altKeys: ["-2 km/h per hour", "-2", "2 km/h per hour decrease", "-2 km/h^2", "decrease of 2 km/h per hour"], type: "text", source: "Mo4-L3 (5.png)", explain: "Speed decreases uniformly by 2 km/h each hour, indicating a negative rate of change (deceleration) of -2 km/h²." },
+      { q: 33, tier: 3, key: "+2 km/h²", altKeys: ["2", "+2", "2 km/h²", "2 km/h^2", "+2 km/h^2"], type: "numeric", num: 2, source: "Mo4-L3 (5.png)", explain: "a = (v_final - v_initial) / Δt = (8 - 0) / (7 - 3) = 8 / 4 = +2 km/h²." },
+      { q: 34, tier: 3, key: "-2 km/h²", altKeys: ["-2", "-2 km/h²", "-2 km/h^2", "2 km/h² deceleration", "2"], type: "numeric", num: -2, source: "Mo4-L3 (5.png)", explain: "a = (0 - 8) / (15 - 11) = -8 / 4 = -2 km/h² (or a deceleration of 2 km/h²)." },
+      { q: 35, tier: 3, key: "32 km", altKeys: ["32", "32km"], type: "numeric", num: 32, source: "Mo4-L3 (4.png / 5.png)", explain: "Area of rectangle = width x height = (11 - 7 h) x 8 km/h = 4 h x 8 km/h = 32 km." },
+      { q: 36, tier: 3, key: "32 km", altKeys: ["32", "32km"], type: "numeric", num: 32, source: "Mo4-L3 (5.png)", explain: "Phase 2 triangle = 0.5 x (7-3) x 8 = 16 km; Phase 4 triangle = 0.5 x (15-11) x 8 = 16 km. Combined area = 16 + 16 = 32 km." },
+      { q: 37, tier: 3, key: "conceptual_slope", type: "concept37", source: "Mo4-L3 (4.png / 5.png)", explain: "The instantaneous slope of a displacement-time curve represents velocity. An umbrella shape has a flattening (decreasing) slope over time, which directly corresponds to a speed that is dropping toward zero on a speed-time graph." },
+      { q: 38, tier: 3, key: "84 km", altKeys: ["84", "84km"], type: "numeric", num: 84, source: "Mo4-L3 (4.png / 5.png)", explain: "At hour 7, displacement = 20 km. If speed remains 8 km/h for the remaining 8 hours (hours 7 to 15), extra distance = 8 h x 8 km/h = 64 km. Total displacement = 20 + 64 = 84 km." },
+      { q: 39, tier: 3, key: "50 km", altKeys: ["50", "50km"], type: "numeric", num: 50, source: "Mo4-L1 (9.png / 10.png)", explain: "Displacement magnitude |d| = sqrt(30² + 40²) = sqrt(900 + 1600) = sqrt(2500) = 50 km." },
+      { q: 40, tier: 3, key: "vector_proof", type: "concept40", source: "Mo4-L2 (12.png / 14.png)", explain: "Let the 4 baseline displacement vectors be v1=(90,0), v2=(0,90), v3=(-90,0), v4=(0,-90). The net vector sum is (90-90, 90-90) = (0,0). Because the final coordinate equals the initial origin coordinate, the displacement vector magnitude is exactly 0 ft, despite scalar path distance being 360 ft." }
+    ];
+
+    /* Test State Variables */
+    let examTimeSeconds = 50 * 60; // 50 minutes standard
+    let timerInterval = null;
+    let candidateResponses = {};
+    let isSubmitted = false;
+
+    /* Initialize System on Window Load */
+    window.onload = function() {
+      lucide.createIcons();
+      initNavGrid();
+      startTimer();
+      updateAnswerProgress();
+    };
+
+    /* 50-Minute Countdown Clock Logic */
+    function startTimer() {
+      const display = document.getElementById("timerDisplay");
+      const clockIcon = document.getElementById("clockIcon");
+      const container = document.getElementById("timerContainer");
+
+      timerInterval = setInterval(() => {
+        if (examTimeSeconds <= 0) {
+          clearInterval(timerInterval);
+          handleTimeExpired();
+          return;
+        }
+
+        examTimeSeconds--;
+        const mins = Math.floor(examTimeSeconds / 60);
+        const secs = examTimeSeconds % 60;
+        display.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+
+        // Color coding for time urgency
+        if (examTimeSeconds <= 300) { // Under 5 minutes -> Crimson Flashing
+          container.className = "flex items-center space-x-2 bg-red-950 px-3 py-1.5 rounded border border-red-700 animate-pulse";
+          display.className = "font-mono text-base font-bold text-red-300 tracking-widest";
+          clockIcon.className = "w-4 h-4 text-red-400";
+        } else if (examTimeSeconds <= 600) { // Under 10 minutes -> Amber Warning
+          container.className = "flex items-center space-x-2 bg-amber-950 px-3 py-1.5 rounded border border-amber-700";
+          display.className = "font-mono text-base font-bold text-amber-300 tracking-widest";
+        }
+      }, 1000);
+    }
+
+    function handleTimeExpired() {
+      if (isSubmitted) return;
+      document.getElementById("timeUpModal").classList.remove("hidden");
+    }
+
+    function proceedFromTimeUp() {
+      document.getElementById("timeUpModal").classList.add("hidden");
+      finalizeAndGradeExam();
+    }
+
+    /* Candidate Name Header Sync */
+    function updateCandidateDisplay() {
+      const name = document.getElementById("candidateNameInput").value || "Candidate";
+      document.getElementById("barCandidateName").textContent = `Candidate: ${name}`;
+    }
+
+    /* Track Candidate Answers in Memory */
+    function registerAnswer(qNum) {
+      if (isSubmitted) return;
+
+      let val = "";
+      // Handle radio, select, input, or textarea
+      const radios = document.getElementsByName(`q${qNum}`);
+      if (radios.length > 0 && radios[0].type === "radio") {
+        for (let r of radios) {
+          if (r.checked) { val = r.value; break; }
+        }
+      } else {
+        const el = document.getElementsByName(`q${qNum}`)[0];
+        if (el) val = el.value.trim();
+      }
+
+      if (val !== "") {
+        candidateResponses[qNum] = val;
+      } else {
+        delete candidateResponses[qNum];
+      }
+
+      updateAnswerProgress();
+      updateNavButton(qNum);
+    }
+
+    function updateAnswerProgress() {
+      const answeredCount = Object.keys(candidateResponses).length;
+      document.getElementById("answeredCounter").textContent = answeredCount;
+      const pct = (answeredCount / 40) * 100;
+      document.getElementById("progressBar").style.width = `${pct}%`;
+    }
+
+    /* Question Navigator Palette */
+    function initNavGrid() {
+      const grid = document.getElementById("navGrid");
+      grid.innerHTML = "";
+      for (let i = 1; i <= 40; i++) {
+        const item = EXAM_DATA[i - 1];
+        const btn = document.createElement("button");
+        btn.id = `navBtn-${i}`;
+        btn.textContent = i;
+        btn.className = `w-8 h-8 rounded text-xs font-mono font-bold flex items-center justify-center transition border ${
+          item.tier === 3 ? 'border-purple-500 bg-stone-100 text-purple-900' : 'border-slate-300 bg-stone-100 text-slate-700'
+        } hover:bg-slate-300`;
+        btn.onclick = () => {
+          toggleNavModal();
+          jumpToQuestion(i);
+        };
+        grid.appendChild(btn);
+      }
+    }
+
+    function updateNavButton(qNum) {
+      const btn = document.getElementById(`navBtn-${qNum}`);
+      if (!btn) return;
+      if (candidateResponses[qNum]) {
+        btn.className = "w-8 h-8 rounded text-xs font-mono font-bold flex items-center justify-center transition bg-emerald-700 text-white border border-emerald-800 shadow-sm";
+      } else {
+        const item = EXAM_DATA[qNum - 1];
+        btn.className = `w-8 h-8 rounded text-xs font-mono font-bold flex items-center justify-center transition border ${
+          item.tier === 3 ? 'border-purple-500 bg-stone-100 text-purple-900' : 'border-slate-300 bg-stone-100 text-slate-700'
+        }`;
+      }
+    }
+
+    function toggleNavModal() {
+      const modal = document.getElementById("navModal");
+      modal.classList.toggle("hidden");
+    }
+
+    function jumpToQuestion(qNum) {
+      let target = document.getElementsByName(`q${qNum}`)[0];
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        target.focus();
+      }
+    }
+
+    /* Submission Modal Handling */
+    function confirmSubmissionModal() {
+      if (isSubmitted) return;
+      const answered = Object.keys(candidateResponses).length;
+      document.getElementById("modalAnsweredCount").textContent = answered;
+      document.getElementById("modalUnansweredCount").textContent = 40 - answered;
+      document.getElementById("modalTimeRemaining").textContent = document.getElementById("timerDisplay").textContent;
+      document.getElementById("submitModal").classList.remove("hidden");
+    }
+
+    function toggleSubmitModal() {
+      document.getElementById("submitModal").classList.toggle("hidden");
+    }
+
+    /* ==================== AUTOMATED GRADING ALGORITHM ==================== */
+    function finalizeAndGradeExam() {
+      if (isSubmitted) return;
+      isSubmitted = true;
+      clearInterval(timerInterval);
+
+      // Hide modals
+      document.getElementById("submitModal").classList.add("hidden");
+      document.getElementById("timeUpModal").classList.add("hidden");
+
+      // Calculate Time Taken
+      const elapsedSeconds = (50 * 60) - examTimeSeconds;
+      const elMins = Math.floor(elapsedSeconds / 60);
+      const elSecs = elapsedSeconds % 60;
+      const timeStr = `${elMins} min ${elSecs} sec`;
+
+      // Evaluation Variables
+      let totalScore = 0;
+      let tier1Score = 0;
+      let tier2Score = 0;
+      let tier3Score = 0;
+      let resultsBreakdown = [];
+
+      // Evaluate each question
+      EXAM_DATA.forEach((item) => {
+        const userRaw = candidateResponses[item.q] || "";
+        let isCorrect = false;
+        let scoreAwarded = 0;
+
+        // Normalization checks based on question type
+        if (item.type === "mcq" || item.type === "tfng" || item.type === "match" || item.type === "bank") {
+          if (userRaw.trim().toUpperCase() === item.key.toUpperCase()) {
+            isCorrect = true;
+          }
+        } else if (item.type === "numeric") {
+          // Extract numbers
+          const userNum = parseFloat(userRaw.replace(/[^0-9.-]/g, ''));
+          if (!isNaN(userNum) && Math.abs(userNum - item.num) < 0.1) {
+            isCorrect = true;
+          } else if (item.altKeys && item.altKeys.some(k => userRaw.toLowerCase().includes(k.toLowerCase()))) {
+            isCorrect = true;
+          }
+        } else if (item.type === "ineq") {
+          const clean = userRaw.toLowerCase().replace(/\s+/g, '');
+          if (clean.includes("d<=s") || clean.includes("d≤s") || clean.includes("|d|<=s") || clean.includes("|d|≤s") || (clean.includes("displacement") && clean.includes("distance"))) {
+            isCorrect = true;
+          }
+        } else if (item.type === "concept37") {
+          // Checks for slope / gradient AND speed / velocity AND decreasing / flattening
+          const text = userRaw.toLowerCase();
+          const hasSlope = text.includes("slope") || text.includes("gradient") || text.includes("derivative");
+          const hasSpeed = text.includes("speed") || text.includes("velocity") || text.includes("rate");
+          const hasDecr = text.includes("decreas") || text.includes("flat") || text.includes("slow") || text.includes("drop") || text.includes("down");
+          if ((hasSlope && hasSpeed) || (hasSlope && hasDecr) || (hasSpeed && hasDecr)) {
+            isCorrect = true;
+          }
+        } else if (item.type === "concept40") {
+          // Checks for vector sum = 0 OR start = finish / home plate OR cancel / closed path
+          const text = userRaw.toLowerCase();
+          const hasVector = text.includes("vector") || text.includes("(0,0)") || text.includes("component") || text.includes("cancel") || text.includes("sum");
+          const hasClosed = text.includes("home") || text.includes("start") || text.includes("origin") || text.includes("closed") || text.includes("initial");
+          const hasZero = text.includes("zero") || text.includes("0") || text.includes("net");
+          if ((hasVector && hasZero) || (hasClosed && hasZero) || (hasVector && hasClosed)) {
+            isCorrect = true;
+          }
+        } else {
+          // General text matching
+          const cleanUser = userRaw.trim().toLowerCase();
+          const cleanKey = item.key.toLowerCase();
+          if (cleanUser === cleanKey) {
+            isCorrect = true;
+          } else if (item.altKeys && item.altKeys.some(k => cleanUser === k.toLowerCase() || cleanUser.includes(k.toLowerCase()))) {
+            isCorrect = true;
+          }
+        }
+
+        if (isCorrect) {
+          scoreAwarded = 1;
+          totalScore++;
+          if (item.tier === 1) tier1Score++;
+          else if (item.tier === 2) tier2Score++;
+          else if (item.tier === 3) tier3Score++;
+        }
+
+        resultsBreakdown.push({
+          q: item.q,
+          tier: item.tier,
+          userAns: userRaw || "(No Answer)",
+          correctAns: item.key,
+          isCorrect: isCorrect,
+          source: item.source,
+          explain: item.explain
+        });
+      });
+
+      // IELTS Physics Band Calculation
+      let band = "Band 5.0";
+      let descriptor = "Modest User - Fundamental Kinematics Deficits";
+      let badgeClass = "bg-stone-200 text-slate-800";
+      let badgeText = "Did Not Meet Standard";
+
+      if (totalScore >= 39) {
+        band = "Band 9.0";
+        descriptor = "Expert Kinematics Analyst - Master Distinction";
+      } else if (totalScore >= 36) {
+        band = "Band 8.5";
+        descriptor = "Very Good Kinematics Analyst - High Distinction";
+      } else if (totalScore >= 32) {
+        band = "Band 8.0";
+        descriptor = "Academic Standard Distinction (80%+ Achieved)";
+      } else if (totalScore >= 28) {
+        band = "Band 7.5";
+        descriptor = "Good Competence - Approaching Distinction";
+      } else if (totalScore >= 24) {
+        band = "Band 7.0";
+        descriptor = "Competent Kinematics User";
+      } else if (totalScore >= 20) {
+        band = "Band 6.5";
+        descriptor = "Borderline Competent - Conceptual Gaps";
+      } else {
+        band = "Band 5.5";
+        descriptor = "Needs Comprehensive Remediation";
+      }
+
+      if (totalScore >= 32) {
+        badgeClass = "bg-emerald-100 text-emerald-900 border border-emerald-400";
+        badgeText = "PASSED: 80% DISTINCTION CRITERION MET";
+      } else {
+        badgeClass = "bg-red-100 text-red-900 border border-red-400";
+        badgeText = "STANDARD NOT MET (<32 / 40 MARKS)";
+      }
+
+      // Populate Report Card
+      document.getElementById("reportTotalScore").textContent = totalScore;
+      document.getElementById("reportPercentage").textContent = `(${((totalScore / 40) * 100).toFixed(1)}%)`;
+      document.getElementById("reportBandScore").textContent = band;
+      document.getElementById("reportBandDescriptor").textContent = descriptor;
+      
+      const badgeEl = document.getElementById("reportBadge");
+      badgeEl.className = `mt-1 inline-block px-3 py-1 text-sm font-extrabold uppercase tracking-wide rounded ${badgeClass}`;
+      badgeEl.textContent = badgeText;
+      document.getElementById("reportTimeTaken").textContent = `Completed in: ${timeStr} (Limit: 50:00)`;
+
+      // Tier Breakdown Percentages
+      const t1Pct = Math.round((tier1Score / 20) * 100);
+      const t2Pct = Math.round((tier2Score / 12) * 100);
+      const t3Pct = Math.round((tier3Score / 8) * 100);
+
+      document.getElementById("tier1ScoreCell").textContent = `${tier1Score} / 20 (${t1Pct}%)`;
+      document.getElementById("tier2ScoreCell").textContent = `${tier2Score} / 12 (${t2Pct}%)`;
+      document.getElementById("tier3ScoreCell").textContent = `${tier3Score} / 8 (${t3Pct}%)`;
+
+      document.getElementById("tier1ProficiencyCell").textContent = t1Pct >= 85 ? "Excellent Recall" : (t1Pct >= 70 ? "Satisfactory" : "Deficient");
+      document.getElementById("tier2ProficiencyCell").textContent = t2Pct >= 80 ? "Proficient Synthesis" : (t2Pct >= 60 ? "Developing" : "Needs Practice");
+      document.getElementById("tier3ProficiencyCell").textContent = t3Pct >= 75 ? "Distinction Level" : (t3Pct >= 50 ? "Emerging Vector Rigor" : "Hurdle Not Cleared");
+
+      // Generate Strengths & Weaknesses
+      generateDiagnosticFeedback(totalScore, tier1Score, tier2Score, tier3Score, resultsBreakdown);
+
+      // Populate 40 Question Marking Review
+      populateReviewTable(resultsBreakdown);
+
+      // Hide Exam Container, Display Report
+      document.getElementById("examContainer").classList.add("hidden");
+      document.getElementById("reportContainer").classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      lucide.createIcons();
+    }
+
+    /* Dynamic Pedagogical Diagnostics Generator */
+    function generateDiagnosticFeedback(total, t1, t2, t3, breakdown) {
+      const strengthsList = document.getElementById("reportStrengthsList");
+      const weaknessesList = document.getElementById("reportWeaknessesList");
+      const roadmapText = document.getElementById("reportRoadmapText");
+
+      strengthsList.innerHTML = "";
+      weaknessesList.innerHTML = "";
+      roadmapText.innerHTML = "";
+
+      // Section-specific analysis
+      const sec1Correct = breakdown.slice(0, 14).filter(b => b.isCorrect).length;
+      const sec2Correct = breakdown.slice(14, 27).filter(b => b.isCorrect).length;
+      const sec3Correct = breakdown.slice(27, 40).filter(b => b.isCorrect).length;
+
+      // Strengths Logic
+      if (sec1Correct >= 11) {
+        strengthsList.innerHTML += `<li><strong>Rigorous Reference Framework Mastery:</strong> Clear grasp of one-dimensional and two-dimensional relative coordinates, benchmarks, and directional sign conventions.</li>`;
+      }
+      if (sec2Correct >= 10) {
+        strengthsList.innerHTML += `<li><strong>Vector vs. Scalar Discrimination:</strong> Solid conceptualization of the gap between path length (distance) and straight-line relocation (displacement) in closed geometry.</li>`;
+      }
+      if (sec3Correct >= 10) {
+        strengthsList.innerHTML += `<li><strong>Kinematic Calculus & Curve Analysis:</strong> Strong ability to associate slope with instantaneous speed and calculate enclosed geometric area under speed–time curves.</li>`;
+      }
+      if (t3 >= 6) {
+        strengthsList.innerHTML += `<li><strong>High-Tier Vector Proof & Problem Solving:</strong> Cleared the 20% Challenge Hurdle by proving closed-loop cancellations and calculating 2D Pythagorean vector sums.</li>`;
+      }
+      if (strengthsList.children.length === 0) {
+        strengthsList.innerHTML += `<li>Demonstrated engagement across all three testing tiers with foundational attempts on 1D position and graph reading.</li>`;
+      }
+
+      // Weaknesses Logic
+      if (sec1Correct < 11) {
+        weaknessesList.innerHTML += `<li><strong>Reference Point Ambiguity:</strong> Inconsistencies when translating real-world positions to negative coordinate designations opposite to the established reference vector.</li>`;
+      }
+      if (sec2Correct < 10) {
+        weaknessesList.innerHTML += `<li><strong>Closed-Loop Displacement Misconception:</strong> Difficulties calculating net vector shift when an entity returns to its starting coordinates or travels along non-hypotenuse paths.</li>`;
+      }
+      if (sec3Correct < 10) {
+        weaknessesList.innerHTML += `<li><strong>Slope vs. Rate Misinterpretation:</strong> Needs reinforcement in distinguishing between displacement-time curvature (accelerating/decelerating) and speed-time linear slopes.</li>`;
+      }
+      if (t3 < 5) {
+        weaknessesList.innerHTML += `<li><strong>Challenge Hurdle Deficit:</strong> Missed critical distinction marks on multi-step area integrations (Q35, Q36) and vector proofs (Q40).</li>`;
+      }
+      if (weaknessesList.children.length === 0) {
+        weaknessesList.innerHTML += `<li>No major conceptual deficiencies identified. Exemplary performance across all assessment matrices.</li>`;
+      }
+
+      // High-Yield Roadmap
+      roadmapText.innerHTML = `
+        <p>1. <strong>Master the Fundamental Theorem of Kinematic Graphs:</strong> Remember that instantaneous velocity is strictly the mathematical derivative (tangent slope) of the position curve \( v = \frac{\Delta d}{\Delta t} \), while displacement is the definite integral (geometric area) beneath the speed curve \( \int v \, dt \).</p>
+        <p>2. <strong>Vector Component Cancellation in Closed Circuits:</strong> Whenever a journey begins and terminates at identical spatial coordinates, the net displacement vector \( \vec{d}_{\text{net}} = \sum \vec{v}_i = \vec{0} \), regardless of how immense the scalar odometer distance may be.</p>
+        <p>3. <strong>Targeted Study Allocation:</strong> Review textbook source lessons <em>Mo4-L1</em> (Reference Frames), <em>Mo4-L2</em> (Displacement on 2D Diamonds), and <em>Mo4-L3</em> (Kinematic Trapezoids and Calculus Areas) to secure consistent Band 9.0 distinction.</p>
+      `;
+    }
+
+    /* Populate 40 Question Detailed Solution Review */
+    let currentBreakdownCache = [];
+    function populateReviewTable(breakdown) {
+      currentBreakdownCache = breakdown;
+      const tbody = document.getElementById("reviewTableBody");
+      tbody.innerHTML = "";
+
+      breakdown.forEach((item) => {
+        const tr = document.createElement("tr");
+        tr.className = item.isCorrect ? "bg-white hover:bg-stone-50" : "bg-red-50/50 hover:bg-red-50";
+        tr.dataset.tier = item.tier;
+        tr.dataset.status = item.isCorrect ? "CORRECT" : "INCORRECT";
+
+        tr.innerHTML = `
+          <td class="text-center font-bold font-mono">${item.q}</td>
+          <td>
+            <span class="px-1.5 py-0.5 rounded text-[11px] font-sans font-semibold ${
+              item.tier === 1 ? 'bg-emerald-100 text-emerald-800' :
+              item.tier === 2 ? 'bg-amber-100 text-amber-800' : 'bg-purple-100 text-purple-900 font-bold'
+            }">
+              Tier ${item.tier}
+            </span>
+          </td>
+          <td class="font-mono ${item.isCorrect ? 'text-slate-800' : 'text-red-700 font-bold'}">${escapeHtml(item.userAns)}</td>
+          <td class="font-bold text-slate-900 font-mono">${escapeHtml(item.correctAns)}</td>
+          <td class="text-center font-bold">
+            ${item.isCorrect 
+              ? '<span class="text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded text-xs">✓ Pass</span>' 
+              : '<span class="text-red-700 bg-red-100 px-2 py-0.5 rounded text-xs">✗ Miss</span>'}
+          </td>
+          <td class="leading-snug">
+            <p class="text-slate-800">${item.explain}</p>
+            <span class="text-[10px] text-slate-500 font-mono italic block mt-0.5">Source: ${item.source}</span>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function filterReviewTable(filterType) {
+      const rows = document.querySelectorAll("#reviewTableBody tr");
+      rows.forEach(row => {
+        if (filterType === 'ALL') {
+          row.style.display = "";
+        } else if (filterType === 'INCORRECT') {
+          row.style.display = row.dataset.status === "INCORRECT" ? "" : "none";
+        } else if (filterType === 'TIER3') {
+          row.style.display = row.dataset.tier === "3" ? "" : "none";
+        }
+      });
+    }
+
+    function retakeExam() {
+      if (confirm("Reset current examination paper and restart the 50-minute timer?")) {
+        window.location.reload();
+      }
+    }
+
+    function scrollToExamTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function escapeHtml(str) {
+      if (!str) return "";
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+  </script>
+</body>
+</html>
